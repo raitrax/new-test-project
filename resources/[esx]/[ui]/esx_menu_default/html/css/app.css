@@ -69,8 +69,8 @@
 .menu .head {
   background-color: #506be6;
   text-align      : center;
-  height          : 100px;
-  line-height     : 96px;
+  height          : 40px;
+  line-height     : 40px;
 }
 
 .menu .menu-items {
