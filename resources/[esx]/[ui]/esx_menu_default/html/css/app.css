@@ -67,15 +67,10 @@
 
 
 .menu .head {
+  background-color: #506be6;
   text-align      : center;
   height          : 100px;
   line-height     : 96px;
-  display: block;
-  color: #000000;
-  font-size: 32px;
-  cursor: pointer;
-  border-radius: 8px 8px 0px 0px;
-  background-image:url(http://image.noelshack.com/fichiers/2018/41/2/1539047314-images.jpg)
 }
 
 .menu .menu-items {
