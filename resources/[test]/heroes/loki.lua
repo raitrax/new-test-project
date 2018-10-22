@@ -182,7 +182,7 @@ AddEventHandler('loki',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "loki"
+		skin = "UnbreakableCyborgUpdated"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

@@ -164,7 +164,7 @@ powercalled = true
 -- PrintChatMessage("Step 1")
 
         Wait(1)
-		skin = "INJ_ReverseFlash"
+		skin = "ReverseFlashUpdated"
 		local model = GetHashKey(skin)
     RequestModel(model)
     while not HasModelLoaded(model) do -- Wait for model to load

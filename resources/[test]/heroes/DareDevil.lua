@@ -179,7 +179,7 @@ AddEventHandler('dd',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "classicdd"
+		skin = "batmanAK"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

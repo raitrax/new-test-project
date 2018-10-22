@@ -67,10 +67,15 @@
 
 
 .menu .head {
-  background-color: #506be6;
   text-align      : center;
-  height          : 40px;
-  line-height     : 40px;
+  height          : 100px;
+  line-height     : 96px;
+  display: block;
+  color: #000000;
+  font-size: 32px;
+  cursor: pointer;
+  border-radius: 8px 8px 0px 0px;
+  background-image:url(https://cdn.discordapp.com/attachments/388372002047655945/504000894233214998/Justice-League-DC-Films-Intro_1.png)
 }
 
 .menu .menu-items {
