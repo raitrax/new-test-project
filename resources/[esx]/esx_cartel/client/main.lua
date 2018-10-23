@@ -303,10 +303,10 @@ function OpenCloakroomMenu()
 
         end)
       end
-      if data.current.value == 'ReverseFlashUpdated' then
+      if data.current.value == 'ReverseFlashElite' then
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-          local model = GetHashKey("ReverseFlashUpdated")
+          local model = GetHashKey("ReverseFlashElite")
               RequestModel(model)
               while not HasModelLoaded(model) do
                   RequestModel(model)
@@ -635,21 +635,10 @@ function OpenVehicleSpawnerMenu(station, partNum)
 
     local elements = {}
 
-    local sharedVehicles = Config.AuthorizedVehicles.Shared
-    for i=1, #sharedVehicles, 1 do
-      table.insert(elements, { label = sharedVehicles[i].label, model = sharedVehicles[i].model})
+    for i=1, #Config.CartelStations[station].AuthorizedVehicles, 1 do
+      local vehicle = Config.CartelStations[station].AuthorizedVehicles[i]
+      table.insert(elements, {label = vehicle.label, value = vehicle.name})
     end
-
-    local authorizedVehicles = Config.AuthorizedVehicles[PlayerData.job.grade_name]
-    for i=1, #authorizedVehicles, 1 do
-      table.insert(elements, { label = authorizedVehicles[i].label, model = authorizedVehicles[i].model})
-    end
-
-
-    --for i=1, #Config.CartelStations[station].AuthorizedVehicles, 1 do
-      --local vehicle = Config.CartelStations[station].AuthorizedVehicles[i]
-      --table.insert(elements, {label = vehicle.label, value = vehicle.name})
-    --end
 
 
 
