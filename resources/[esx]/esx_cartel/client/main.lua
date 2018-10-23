@@ -76,7 +76,10 @@ function OpenCloakroomMenu()
     table.insert(elements, {label = 'Deathstroke', value = 'deathstroke'})
   end
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'righthand' then --RedHood
-    table.insert(elements, {label = 'Sbire du Joker', value = 'ig_bankman'})
+    table.insert(elements, {label = 'Red Hood', value = 'redhoodi2'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'righthand' then --RedHood
+    table.insert(elements, {label = 'Arkham Knight', value = 'arkhamknight'})
   end
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Joker
     table.insert(elements, {label = 'Joker', value = 'JokerBAO'})
@@ -148,7 +151,7 @@ function OpenCloakroomMenu()
 
         end)
       end
-            --Taken from SuperCoolNinja
+      --Taken from SuperCoolNinja
       if data.current.value == 'deathstroke' then
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
@@ -166,11 +169,29 @@ function OpenCloakroomMenu()
 
         end)
       end
-            --Taken from SuperCoolNinja
+      --Taken from SuperCoolNinja
       if data.current.value == 'redhoodi2' then
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
           local model = GetHashKey("redhoodi2")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+      --Taken from SuperCoolNinja
+      if data.current.value == 'arkhamknight' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("arkhamknight")
               RequestModel(model)
               while not HasModelLoaded(model) do
                   RequestModel(model)
@@ -533,10 +554,23 @@ function OpenVehicleSpawnerMenu(station, partNum)
 
     local elements = {}
 
-    for i=1, #Config.CartelStations[station].AuthorizedVehicles, 1 do
-      local vehicle = Config.CartelStations[station].AuthorizedVehicles[i]
-      table.insert(elements, {label = vehicle.label, value = vehicle.name})
+    local sharedVehicles = Config.AuthorizedVehicles.Shared
+    for i=1, #sharedVehicles, 1 do
+      table.insert(elements, { label = sharedVehicles[i].label, model = sharedVehicles[i].model})
     end
+
+    local authorizedVehicles = Config.AuthorizedVehicles[PlayerData.job.grade_name]
+    for i=1, #authorizedVehicles, 1 do
+      table.insert(elements, { label = authorizedVehicles[i].label, model = authorizedVehicles[i].model})
+    end
+
+
+    --for i=1, #Config.CartelStations[station].AuthorizedVehicles, 1 do
+      --local vehicle = Config.CartelStations[station].AuthorizedVehicles[i]
+      --table.insert(elements, {label = vehicle.label, value = vehicle.name})
+    --end
+
+
 
     ESX.UI.Menu.Open(
       'default', GetCurrentResourceName(), 'vehicle_spawner',
