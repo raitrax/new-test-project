@@ -182,7 +182,7 @@ AddEventHandler('loki',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "UnbreakableCyborgUpdated"
+		skin = "CyborgElite"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)
@@ -356,7 +356,7 @@ AddEventHandler('loki',function(skin)
 	
 	else
 	
-			skin = "loki"
+			skin = "CyborgElite"
 	local model = GetHashKey(skin)	
 			currenthp = GetEntityHealth(playerPed)
     RequestModel(model)
