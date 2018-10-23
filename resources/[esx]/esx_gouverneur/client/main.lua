@@ -47,19 +47,44 @@ AddEventHandler('instance:onCreate', function(instance)
 end)
 
 function CloakRoom()
+
+  local elements = {
+    {label = _U('citizen_wear'), value = 'citizen_wear'}
+  }
+
+  ESX.UI.Menu.CloseAll()
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'security_gouvernor' then --Sbire
+    table.insert(elements, {label = 'Green Arrow', value = 'CWArrowS4'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'juge' then --Deadshot
+    table.insert(elements, {label = 'Flash', value = 'FlashS4injustice2'})
+    table.insert(elements, {label = 'Flash', value = 'FlashJL'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier' then --Deathstroke
+    table.insert(elements, {label = 'Aquaman', value = 'Aquaman'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'superman' then --Joker
+    table.insert(elements, {label = 'Superman DC', value = 'SupermanDc'})
+    table.insert(elements, {label = 'Superman 52', value = 'spn52'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'batman' then --Zoom
+    table.insert(elements, {label = 'Batman', value = 'BatmanAK'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
+    table.insert(elements, {label = 'The Cyborg', value = 'CyborgElite'})
+    table.insert(elements, {label = 'Cyborg degeu', value = 'Cyborg'})
+    table.insert(elements, {label = 'Cyborg jl', value = 'cyborgjl'})
+    table.insert(elements, {label = 'Cyborg unbreak Elite', value = 'UnbreakableCyborgElite'})
+    table.insert(elements, {label = 'Cyborg unbreak Update', value = 'UnbreakableCyborgUpdated'})
+  end
+
+
 	ESX.UI.Menu.Open(
 		'default', GetCurrentResourceName(), 'cloakroom',
 		{
 			title    = 'Vestiaire',
 			align    = 'top-left',
-			elements = {
-				{label = _U('clothes_civil'), value = 'citizen_wear'},
-				{label = 'Deadpool', value = 'DeadPool'},
-				{label = 'Night', value = 'arkhamknight'},
-				{label = 'Red Hood', value = 'redhoodi2'},
-				{label = 'Green Arrow', value = 'CWArrowS4'},
-				{label = 'Armurerie', value = 'weapon_wear'},
-			},
+			elements = elements,
 		},
 		function(data, menu)
 
@@ -85,11 +110,192 @@ function CloakRoom()
 				
 				end
 
-	               --Taken from SuperCoolNinja
-			if data.current.value == 'DeadPool' then
+			--Taken from SuperCoolNinja
+			if data.current.value == 'CyborgElite' then
 
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("DeadPool")
+			  local model = GetHashKey("CyborgElite")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+			--Taken from SuperCoolNinja
+			if data.current.value == 'Cyborg' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("Cyborg")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+       		--Taken from SuperCoolNinja
+			if data.current.value == 'cyborgjl' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("cyborgjl")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+	               --Taken from SuperCoolNinja
+			if data.current.value == 'UnbreakableCyborgElite' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("UnbreakableCyborgElite")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+			--Taken from SuperCoolNinja
+			if data.current.value == 'UnbreakableCyborgUpdated' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("UnbreakableCyborgUpdated")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+
+			--Taken from SuperCoolNinja
+			if data.current.value == 'BatmanAK' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("BatmanAK")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+			--Taken from SuperCoolNinja
+			if data.current.value == 'SupermanDc' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("SupermanDc")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+       		--Taken from SuperCoolNinja
+			if data.current.value == 'spn52' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("spn52")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+	               --Taken from SuperCoolNinja
+			if data.current.value == 'Aquaman' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("Aquaman")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+			--Taken from SuperCoolNinja
+			if data.current.value == 'FlashJL' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("FlashJL")
+			      RequestModel(model)
+			      while not HasModelLoaded(model) do
+			          RequestModel(model)
+			          Citizen.Wait(0)
+			      end
+
+			      SetPlayerModel(PlayerId(), model)
+			      SetModelAsNoLongerNeeded(model)
+			      TriggerEvent('skinchanger:loadSkin', skin)
+			      TriggerEvent('esx:restoreLoadout')
+
+			end)
+			end
+		    --Taken from SuperCoolNinja
+			if data.current.value == 'FlashS4injustice2' then
+
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			  local model = GetHashKey("FlashS4injustice2")
 			      RequestModel(model)
 			      while not HasModelLoaded(model) do
 			          RequestModel(model)
@@ -121,42 +327,7 @@ function CloakRoom()
 
 			end)
 			end
-			--Taken from SuperCoolNinja
-			if data.current.value == 'redhoodi2' then
 
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("redhoodi2")
-			      RequestModel(model)
-			      while not HasModelLoaded(model) do
-			          RequestModel(model)
-			          Citizen.Wait(0)
-			      end
-
-			      SetPlayerModel(PlayerId(), model)
-			      SetModelAsNoLongerNeeded(model)
-			      TriggerEvent('skinchanger:loadSkin', skin)
-			      TriggerEvent('esx:restoreLoadout')
-
-			end)
-			end
-		    --Taken from SuperCoolNinja
-			if data.current.value == 'arkhamknight' then
-
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("arkhamknight")
-			      RequestModel(model)
-			      while not HasModelLoaded(model) do
-			          RequestModel(model)
-			          Citizen.Wait(0)
-			      end
-
-			      SetPlayerModel(PlayerId(), model)
-			      SetModelAsNoLongerNeeded(model)
-			      TriggerEvent('skinchanger:loadSkin', skin)
-			      TriggerEvent('esx:restoreLoadout')
-
-			end)
-			end
 			--Taken from SuperCoolNinja
 			if data.current.value == 'citizen_wear' then
 

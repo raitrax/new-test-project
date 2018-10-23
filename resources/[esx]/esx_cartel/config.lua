@@ -43,7 +43,7 @@ Config.CartelStations = {
       --{ name = 'WEAPON_STUNGUN',              price = 0 }, 	  
 	  --{ name = 'WEAPON_PISTOL',               price = 0 },
 	  --{ name = 'WEAPON_COMBATPISTOL',         price = 0 },
-	  --{ name = 'WEAPON_PISTOL50',     	      price = 50 },
+	  --{ name = 'WEAPON_PISTOL50',     	    price = 50 },
       --{ name = 'WEAPON_APPISTOL',             price = 50 },
 	  --{ name = 'WEAPON_SNSPISTOL',            price = 0 },
 	  --{ name = 'WEAPON_HEAVYPISTOL',          price = 50 },
@@ -113,17 +113,7 @@ Config.AuthorizedVehicles = {
 		{model = 'ztype', label = 'ztype'}
 	},
 
-	sbire = {},
-
-	capo = {},
-
-	consigliere = {},
-
-	soldato = {},
-
-	righthand = {},
-
-	boss = {
+	joker = {
 		{model = 'royale', label = 'royale'}
 	}
 }
