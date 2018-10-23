@@ -96,27 +96,13 @@ Config.CartelStations = {
 	  --{ name = 'WEAPON_DOUBLEACTION',         price = 50 },
     },
 
-	  --AuthorizedVehicles = {
-		  --{ name = 'cognoscenti2',  label = 'Armored Enus' },
-		  --{ name = 'Manchez',    label = 'Manchez' },
-		  --{ name = 'bf400',      label = 'BF400' },
-          --{ name = 'ztype',   label = 'ztype' },
-		--  { name = 'royale',   label = 'royale' },
-	  --},
-
-	  -- https://wiki.rage.mp/index.php?title=Vehicles
-Config.AuthorizedVehicles = {
-	Shared = {
-		{model = 'cognoscenti2', label = 'Armored Enus'},
-		{model = 'Manchez', label = 'Manchez'},
-		{model = 'bf400', label = 'BF400'},
-		{model = 'ztype', label = 'ztype'}
-	},
-
-	joker = {
-		{model = 'royale', label = 'royale'}
-	}
-}
+	  AuthorizedVehicles = {
+		  { name = 'cognoscenti2',  label = 'Armored Enus' },
+		  { name = 'Manchez',    label = 'Manchez' },
+		  { name = 'bf400',      label = 'BF400' },
+          { name = 'ztype',   label = 'ztype' },
+		  { name = 'royale',   label = 'royale' },
+	  },
 
 
 

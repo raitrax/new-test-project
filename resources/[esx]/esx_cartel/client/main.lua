@@ -286,7 +286,40 @@ function OpenCloakroomMenu()
 
         end)
       end
+      if data.current.value == 'Cold' then
 
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("Cold")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+      if data.current.value == 'ReverseFlashUpdated' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("ReverseFlashUpdated")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
 
       --Taken from SuperCoolNinja
       if data.current.value == 'citizen_wear' then
