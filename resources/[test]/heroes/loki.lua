@@ -182,7 +182,7 @@ AddEventHandler('loki',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "CyborgElite"
+		skin = "loki"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)
@@ -201,7 +201,7 @@ AddEventHandler('loki',function(skin)
 	SetPedCombatMovement(playerPed,100)
 	SetPedDiesWhenInjured(playerPed,false)
 	Wait(1000)
-	SetPedRelationshipGroupHash(playerPed, GetHashKey("hero"))
+	SetPedRelationshipGroupHash(playerPed, GetHashKey("villains"))
 	SetPedAccuracy(playerPed, 1000)
 	SetPedCombatRange(playerPed, 10)
 	cbr = GetPedCombatRange(playerPed)
@@ -349,14 +349,14 @@ AddEventHandler('loki',function(skin)
 	
 	changeped = false
 	
-	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_RAILGUN"), 1000, 0, 1)
+	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_HAMMER"), 1000, 0, 1)
 		SetPedMaxHealth(playerPed,5000)
 	SetEntityHealth(playerPed,currenthp)
-	SetPedRelationshipGroupHash(playerPed, GetHashKey("hero"))
+	SetPedRelationshipGroupHash(playerPed, GetHashKey("villains"))
 	
 	else
 	
-			skin = "CyborgElite"
+			skin = "loki"
 	local model = GetHashKey(skin)	
 			currenthp = GetEntityHealth(playerPed)
     RequestModel(model)
@@ -371,12 +371,12 @@ AddEventHandler('loki',function(skin)
     SetModelAsNoLongerNeeded(model)
 	
 	playerPed = GetPlayerPed(-1)
-	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_RAILGUN"), 1000, 0, 1)
+	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_HAMMER"), 1000, 0, 1)
 	changeped = false
 	
 		SetPedMaxHealth(playerPed,5000)
 	SetEntityHealth(playerPed,currenthp)
-	SetPedRelationshipGroupHash(playerPed, GetHashKey("hero"))
+	SetPedRelationshipGroupHash(playerPed, GetHashKey("villains"))
 	
 			end
 			end
@@ -452,7 +452,7 @@ AddEventHandler('loki',function(skin)
 	end
 	end)
 	
-	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_KNUCKLE"), 1000, 0, 1)
+	GiveWeaponToPed(playerPed, GetHashKey("WEAPON_HAMMER"), 1000, 0, 1)
 	
 	Citizen.CreateThread(function()
 	while true do
@@ -462,9 +462,9 @@ AddEventHandler('loki',function(skin)
 			table.insert(clones,clone)
 			if #clones < 10 then
 			clone = ClonePed(playerPed, GetEntityHeading(playerPed),true, true)
-			SetPedRelationshipGroupHash(clone,GetHashKey("hero"))
+			SetPedRelationshipGroupHash(clone,GetHashKey("villains"))
 			TaskWanderStandard(clone,1.0,10)
-			GiveWeaponToPed(clone, GetHashKey("WEAPON_KNUCKLE"), 1000, 0, 1)
+			GiveWeaponToPed(clone, GetHashKey("WEAPON_HAMMER"), 1000, 0, 1)
 			SetPedFleeAttributes(clone, 0, 0)
    			SetPedCombatAttributes(clone, 16, 1)
    			SetPedCombatAttributes(clone, 46, 1)
@@ -577,7 +577,7 @@ Citizen.CreateThread(function()
 					
 			for i = 1,18 do
 			if GetEntityHealth(thechamp) > (GetEntityMaxHealth(thechamp) * .9) then
-			SetPedRelationshipGroupHash(thechamp,"hero")
+			SetPedRelationshipGroupHash(thechamp,"villains")
 			SetPedFleeAttributes(thechamp, 0, 0)
    			SetPedCombatAttributes(thechamp, 16, 1)
    			SetPedCombatAttributes(thechamp, 46, 1)
@@ -699,12 +699,12 @@ Citizen.CreateThread(function()
 								v = true 
 								end
 								
-								AddRelationshipGroup("hero")
+								AddRelationshipGroup("villains")
 								if v == true then
-								if GetPedRelationshipGroupHash(playerPed) ~= GetHashKey("hero") then
+								if GetPedRelationshipGroupHash(playerPed) ~= GetHashKey("villains") then
 								--	SetPlayerWantedLevel(PlayerId(),5)
-									 -- 	AddRelationshipGroup("hero")
-	SetPedRelationshipGroupHash(playerPed,GetHashKey("hero"))
+									 -- 	AddRelationshipGroup("villains")
+	SetPedRelationshipGroupHash(playerPed,GetHashKey("villains"))
 --	SetPoliceIgnorePlayer(PlayerId(-1),false)
 	PrintChatMessage("Flagged as villain for three minutes " .. tc)
 	SetMaxWantedLevel(5)

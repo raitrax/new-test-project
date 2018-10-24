@@ -1,3 +1,4 @@
+
 @font-face {
   font-family: bankgothic;
   src: url('../fonts/bankgothic.ttf');
@@ -5,13 +6,19 @@
 
 @font-face {
   font-family: pcdown;
+  src: url('../fonts/pcdown.ttf');
+}
+
+
+@font-face {
+  font-family: pcdown;
   src: url('../fonts/pdown.ttf');
 }
 .menu {
-  font-family: Arial;  
-  width      : 360px;
-  color      : #fff;
-  box-shadow : 0px 0px 50px 0px #000;
+  font-family: bankgothic;  
+  min-width  : 400px;
+  color      : rgb(255, 255, 255);
+  box-shadow : 0px 0px 50px 0px rgb(117, 75, 75);
   position   : absolute;
 }
 
@@ -22,8 +29,8 @@
 }
 
 .menu.align-top-left {
-  left: 15;
-  top : 300; 
+  left: 40;
+  top : 40; 
 }
 
 .menu.align-top {
@@ -65,35 +72,31 @@
   transform: translate(-50%, -50%); 
 }
 
-
 .menu .head {
+  font-family     : pcdown
+  background-color: #f52d2d;
   text-align      : center;
-  height          : 100px;
-  line-height     : 96px;
-  display: block;
-  color: #000000;
-  font-size: 32px;
-  cursor: pointer;
-  border-radius: 8px 8px 0px 0px;
-  background-image:url(https://cdn.discordapp.com/attachments/388372002047655945/504000894233214998/Justice-League-DC-Films-Intro_1.png)
+  height          : 40px;
+  line-height     : 40px;
 }
 
 .menu .menu-items {
-  max-height : 500px;
+  max-height : 600px;
   overflow-y : auto;
 }
 
 .menu .menu-items .menu-item {
   height          : 40px;
   display         : block;
-  background-color: rgb(0, 0, 0);
-  opacity         : 0.7;
+  background-color: #000000;
+  box-shadow      : inset 1px 0px 0px 1px #7a4f4f;
   height          : 32px;
+  opacity         : 0.8; 
   line-height     : 32px;
-  color           : #ffffff;
-  padding: 0px 12px;
+  color           : #FFFFFF;
+  text-align      : center;
 }
 
 .menu .menu-items .menu-item.selected {
-  background-color: #ffca18;
+  background-color: #d0d0d0;
 }

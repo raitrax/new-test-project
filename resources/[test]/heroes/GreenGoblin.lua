@@ -165,7 +165,7 @@ PrintChatMessage("Attempting Deathstroke")
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "cyborgjl"
+		skin = "GreenGoblin"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

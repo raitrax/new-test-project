@@ -1,13 +1,13 @@
 Citizen.CreateThread(function()
 	AddRelationshipGroup("villains")
 	AddRelationshipGroup("sentinels")		
-	--SetRadarBigmapEnabled(true, false)
+	SetRadarBigmapEnabled(true, false)
 	AddRelationshipGroup("harley")
 	AddRelationshipGroup("hero")
 	SetPlayerWantedLevel(PlayerId(-1),0)
 
 	Wait(10000)
-		--SetRadarBigmapEnabled(true, false)
+		SetRadarBigmapEnabled(true, false)
 	
 	SetRelationshipBetweenGroups(4, GetHashKey("sentinels"), GetHashKey("PLAYER"))
 	SetRelationshipBetweenGroups(4, GetHashKey("PLAYER"), GetHashKey("sentinels"))

@@ -170,7 +170,7 @@ PrintChatMessage("Deadshot")
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "deadshotSS"
+		skin = "deadshot"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

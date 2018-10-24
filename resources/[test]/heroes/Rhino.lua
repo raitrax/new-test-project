@@ -151,7 +151,7 @@ AddEventHandler('rhino',function()
 
 	powercalled = true
     Wait(1)
-	skin = "INJUSTICEDOOMS"
+	skin = "rhin"
 	local model = GetHashKey(skin)
     RequestModel(model)
     while not HasModelLoaded(model) do -- Wait for model to load

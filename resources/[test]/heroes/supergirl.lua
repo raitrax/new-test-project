@@ -174,7 +174,7 @@ AddEventHandler('supergirl',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "SupermanDc"
+		skin = "spn52"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

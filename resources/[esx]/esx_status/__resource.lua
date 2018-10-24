@@ -21,8 +21,5 @@ ui_page 'html/ui.html'
 files {
 	'html/ui.html',
 	'html/css/app.css',
-	'html/scripts/app.js',
-    'html/hunger.png',
-    'html/thirst.png',
-    'html/drunk.png'
+	'html/scripts/app.js'
 }
