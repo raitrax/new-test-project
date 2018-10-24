@@ -76,11 +76,24 @@ function OpenCloakroomMenu()
     table.insert(elements, {label = 'Deathstroke', value = 'deathstroke'})
   end
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'righthand' then --RedHood
-    table.insert(elements, {label = 'Sbire du Joker', value = 'ig_bankman'})
+    table.insert(elements, {label = 'Red Hood', value = 'redhoodi2'})
+    table.insert(elements, {label = 'Arkham Knight', value = 'arkhamknight'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Joker
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'joker' then --Joker
     table.insert(elements, {label = 'Joker', value = 'JokerBAO'})
     table.insert(elements, {label = 'Joker Inj2', value = 'Joker'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'zoom' then --Zoom
+    table.insert(elements, {label = 'Professeur Zoom', value = 'ReverseFlashElite'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'cold' then --Cold
+    table.insert(elements, {label = 'Capitaine Cold', value = 'Cold'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'parademon' then --parademon
+    table.insert(elements, {label = 'Parademon', value = 'Parademon'})
+  end
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
+    table.insert(elements, {label = 'Darkseid', value = 'Darkseid'})
   end
     ESX.UI.Menu.Open(
       'default', GetCurrentResourceName(), 'cloakroom',
@@ -148,7 +161,7 @@ function OpenCloakroomMenu()
 
         end)
       end
-            --Taken from SuperCoolNinja
+      --Taken from SuperCoolNinja
       if data.current.value == 'deathstroke' then
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
@@ -166,11 +179,29 @@ function OpenCloakroomMenu()
 
         end)
       end
-            --Taken from SuperCoolNinja
+      --Taken from SuperCoolNinja
       if data.current.value == 'redhoodi2' then
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
           local model = GetHashKey("redhoodi2")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+      --Taken from SuperCoolNinja
+      if data.current.value == 'arkhamknight' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("arkhamknight")
               RequestModel(model)
               while not HasModelLoaded(model) do
                   RequestModel(model)
@@ -219,6 +250,77 @@ function OpenCloakroomMenu()
 
         end)
       end
+
+      if data.current.value == 'Darkseid' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("Darkseid")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+
+      if data.current.value == 'Parademon' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("Parademon")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+      if data.current.value == 'Cold' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("Cold")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+      if data.current.value == 'ReverseFlashElite' then
+
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = GetHashKey("ReverseFlashElite")
+              RequestModel(model)
+              while not HasModelLoaded(model) do
+                  RequestModel(model)
+                  Citizen.Wait(0)
+              end
+
+              SetPlayerModel(PlayerId(), model)
+              SetModelAsNoLongerNeeded(model)
+              TriggerEvent('skinchanger:loadSkin', skin)
+              TriggerEvent('esx:restoreLoadout')
+
+        end)
+      end
+
       --Taken from SuperCoolNinja
       if data.current.value == 'citizen_wear' then
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
@@ -537,6 +639,8 @@ function OpenVehicleSpawnerMenu(station, partNum)
       local vehicle = Config.CartelStations[station].AuthorizedVehicles[i]
       table.insert(elements, {label = vehicle.label, value = vehicle.name})
     end
+
+
 
     ESX.UI.Menu.Open(
       'default', GetCurrentResourceName(), 'vehicle_spawner',

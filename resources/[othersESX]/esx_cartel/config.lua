@@ -43,7 +43,7 @@ Config.CartelStations = {
       --{ name = 'WEAPON_STUNGUN',              price = 0 }, 	  
 	  --{ name = 'WEAPON_PISTOL',               price = 0 },
 	  --{ name = 'WEAPON_COMBATPISTOL',         price = 0 },
-	  --{ name = 'WEAPON_PISTOL50',     	      price = 50 },
+	  --{ name = 'WEAPON_PISTOL50',     	    price = 50 },
       --{ name = 'WEAPON_APPISTOL',             price = 50 },
 	  --{ name = 'WEAPON_SNSPISTOL',            price = 0 },
 	  --{ name = 'WEAPON_HEAVYPISTOL',          price = 50 },
@@ -100,9 +100,11 @@ Config.CartelStations = {
 		  { name = 'cognoscenti2',  label = 'Armored Enus' },
 		  { name = 'Manchez',    label = 'Manchez' },
 		  { name = 'bf400',      label = 'BF400' },
-		  { name = 'royale',   label = 'royale' },
           { name = 'ztype',   label = 'ztype' },
+		  { name = 'royale',   label = 'royale' },
 	  },
+
+
 
     Armories = {
       { x = -599.53509521484, y = -1616.7631835938, z = 32.010540008545},
