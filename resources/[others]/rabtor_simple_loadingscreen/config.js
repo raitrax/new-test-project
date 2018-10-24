@@ -20,12 +20,13 @@ VK.config.thirdColor = [0, 0, 0]; // Third color in rgb : [r, g, b]
 
 VK.backgrounds.list = [ // Backgrounds list, can be on local or distant(http://....)
     "img/1.jpg",
+	"img/2.jpg",
 	"img/3.jpg",
+	"img/4.jpg",
 	"img/6.jpg",
 	"img/7.jpg",
 	"img/8.jpg",
 	"img/9.jpg",
-	"img/10.jpg",
 ];
 VK.backgrounds.duration = 3000; // Background duration (in ms) before transition (the transition lasts 1/3 of this time)
 
@@ -42,14 +43,14 @@ VK.tips.list = [ // Tips list
 
 VK.music.url = "live.ogg"; // Music url, can be on local or distant (http://....) ("NONE" to desactive music)
 VK.music.volume = 0.1; // Music volume (0-1)
-VK.music.title = "Batman Arkham City Soundtrack - Main Theme (Track #1)"; // Music title ("NONE" to desactive)
+VK.music.title = "Main title DC Origins"; // Music title ("NONE" to desactive)
 VK.music.submitedBy = "🦇"; // Music submited by... ("NONE" to desactive)
 
 VK.info.logo = "img/5.png"; // Logo, can be on local or distant(http://....) ("NONE" to desactive)
 VK.info.text = "100% RP"; // Bottom right corner text ("NONE" to desactive) 
-VK.info.website = "https://gta.top-serveurs.net/vote/gotham-city-by-digilux"; // Website url ("NONE" to desactive) 
-VK.info.ip = "51.75.22.143:30120"; // Your server ip and port ("ip:port")
-VK.social.discord = "discord.gg/sdKNU5W"; // Discord url ("NONE" to desactive)
+VK.info.website = "https://gta.top-serveurs.net/vote/dc-origins-rp"; // Website url ("NONE" to desactive) 
+VK.info.ip = "40.89.130.154:30120"; // Your server ip and port ("ip:port")
+VK.social.discord = "discord.gg/3nyUd44"; // Discord url ("NONE" to desactive)
 
 
 VK.players.enable = true; // Enable the players count of the server (true : enable, false : prevent)
