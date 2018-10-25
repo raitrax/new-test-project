@@ -67,7 +67,7 @@ local admins = {
 
 	"steam:1100001165b855a", -- Clark Kent
     "steam:11000010adb7315", -- Barry Allen
-    --"steam:11000010e8d0f59", -- Batman
+    "steam:11000010e8d0f59", -- Batman
 	"steam:1100001075e32e8", -- lucius Fox
 	"ip:0.0.0.0",            
 }
