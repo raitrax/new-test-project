@@ -63,36 +63,36 @@ function OpenCloakroomMenu()
     --table.insert(elements, {label = _U('lieutenant_wear'), value = 'lieutenant_wear'})
     --table.insert(elements, {label = _U('commandant_wear'), value = 'commandant_wear'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'sbire') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'sbire') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'sbire' then --Sbire
     table.insert(elements, {label = 'Sbire du Joker', value = 'ig_bankman'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'capo') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'capo') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'capo' then --Scarecrow
     table.insert(elements, {label = 'Scarecrow', value = 'scarecrow'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'consigliere') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'consigliere') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'consigliere' then --Deadshot
     table.insert(elements, {label = 'Deadshot', value = 'deadshotSS'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'soldato') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'soldato') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'soldato' then --Deathstroke
     table.insert(elements, {label = 'Deathstroke', value = 'deathstroke'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'righthand') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'righthand') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'righthand' then --RedHood
     table.insert(elements, {label = 'Red Hood', value = 'redhoodi2'})
     table.insert(elements, {label = 'Arkham Knight', value = 'arkhamknight'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'joker') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'joker') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'joker' then --Joker
     table.insert(elements, {label = 'Joker', value = 'JokerBAO'})
     table.insert(elements, {label = 'Joker Inj2', value = 'Joker'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'zoom') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'zoom') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'zoom' then --Zoom
     table.insert(elements, {label = 'Professeur Zoom', value = 'ReverseFlashElite'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'cold') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'cold') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'cold' then --Cold
     table.insert(elements, {label = 'Capitaine Cold', value = 'Cold'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'parademon') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'parademon') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'parademon' then --parademon
     table.insert(elements, {label = 'Parademon', value = 'Parademon'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'boss') then --Sbire
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
     table.insert(elements, {label = 'Darkseid', value = 'Darkseid'})
   end
     ESX.UI.Menu.Open(
@@ -497,7 +497,7 @@ function OpenArmoryMenu(station)
       {label = 'deposer object',  value = 'put_stock'}
     }
 
-    if (PlayerData.job.grade_name == 'boss') or (PlayerData.job2.grade_name == 'boss') then
+    if PlayerData.job.grade_name == 'boss' then
       table.insert(elements, {label = _U('buy_weapons'), value = 'buy_weapons'})
     end
 
@@ -1502,11 +1502,6 @@ AddEventHandler('esx:setJob', function(job)
   PlayerData.job = job
 end)
 
-RegisterNetEvent('esx:setJob2')
-AddEventHandler('esx:setJob2', function(job2)
-  ESX.PlayerData.job2 = job2
-end)
-
 -- RegisterNetEvent('esx_phone:loaded')
 -- AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
 
@@ -1595,7 +1590,7 @@ AddEventHandler('esx_carteljob:hasEnteredEntityZone', function(entity)
 
   local playerPed = GetPlayerPed(-1)
 
-  if (PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not IsPedInAnyVehicle(playerPed, false)) or (PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel' and not IsPedInAnyVehicle(playerPed, false)) then
+  if PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not IsPedInAnyVehicle(playerPed, false) then
     CurrentAction     = 'remove_entity'
     CurrentActionMsg  = _U('remove_object')
     CurrentActionData = {entity = entity}
@@ -1765,7 +1760,7 @@ Citizen.CreateThread(function()
 
     Wait(0)
 
-    if (PlayerData.job ~= nil and PlayerData.job.name == 'cartel') or (PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel') then
+    if PlayerData.job ~= nil and PlayerData.job.name == 'cartel' then
 
       local playerPed = GetPlayerPed(-1)
       local coords    = GetEntityCoords(playerPed)
@@ -1796,7 +1791,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if (Config.EnablePlayerManagement and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and PlayerData.job.grade_name == 'boss') or (Config.EnablePlayerManagement and PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel' and PlayerData.job2.grade_name == 'boss') then
+        if Config.EnablePlayerManagement and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and PlayerData.job.grade_name == 'boss' then
 
           for i=1, #v.BossActions, 1 do
             if not v.BossActions[i].disabled and GetDistanceBetweenCoords(coords,  v.BossActions[i].x,  v.BossActions[i].y,  v.BossActions[i].z,  true) < Config.DrawDistance then
@@ -1820,7 +1815,7 @@ Citizen.CreateThread(function()
 
     Wait(0)
 
-    if (PlayerData.job ~= nil and PlayerData.job.name == 'cartel') or (PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel') then
+    if PlayerData.job ~= nil and PlayerData.job.name == 'cartel' then
 
       local playerPed      = GetPlayerPed(-1)
       local coords         = GetEntityCoords(playerPed)
@@ -1894,7 +1889,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if (Config.EnablePlayerManagement and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and PlayerData.job.grade_name == 'boss') or (Config.EnablePlayerManagement and PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel' and PlayerData.job2.grade_name == 'boss') then
+        if Config.EnablePlayerManagement and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and PlayerData.job.grade_name == 'boss' then
 
           for i=1, #v.BossActions, 1 do
             if GetDistanceBetweenCoords(coords,  v.BossActions[i].x,  v.BossActions[i].y,  v.BossActions[i].z,  true) < Config.MarkerSize.x then
@@ -2011,7 +2006,7 @@ Citizen.CreateThread(function()
       AddTextComponentString(CurrentActionMsg)
       DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 
-      if (IsControlPressed(0,  Keys['E']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and (GetGameTimer() - GUI.Time) > 150) or (IsControlPressed(0,  Keys['E']) and PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel' and (GetGameTimer() - GUI.Time) > 150) then
+      if IsControlPressed(0,  Keys['E']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and (GetGameTimer() - GUI.Time) > 150 then
 
         if CurrentAction == 'menu_cloakroom' then
           OpenCloakroomMenu()
@@ -2075,7 +2070,7 @@ Citizen.CreateThread(function()
 
     end
 
-   if (IsControlPressed(0,  Keys['F6']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'cartel_actions') and (GetGameTimer() - GUI.Time) > 150) or (IsControlPressed(0,  Keys['F6']) and PlayerData.job2 ~= nil and PlayerData.job2.name == 'cartel' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'cartel_actions') and (GetGameTimer() - GUI.Time) > 150) then
+   if IsControlPressed(0,  Keys['F6']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'cartel_actions') and (GetGameTimer() - GUI.Time) > 150 then
      OpenCartelActionsMenu()
      GUI.Time = GetGameTimer()
     end
