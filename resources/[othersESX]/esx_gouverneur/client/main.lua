@@ -60,17 +60,17 @@ function CloakRoom()
     table.insert(elements, {label = 'Flash', value = 'FlashS4injustice2'})
     table.insert(elements, {label = 'Flash', value = 'FlashJL'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'officier') then --Deathstroke
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'officier') then --Deathstroke
     table.insert(elements, {label = 'Aquaman', value = 'Aquaman'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'superman') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'superman') then --Joker
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'superman' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'superman') then --Joker
     table.insert(elements, {label = 'Superman DC', value = 'SupermanDc'})
     table.insert(elements, {label = 'Superman 52', value = 'spn52'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'batman') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'batman') then --Zoom
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'batman' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'batman') then --Zoom
     table.insert(elements, {label = 'Batman', value = 'BatmanAK'})
   end
-  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'boss') then --Darkseid
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'boss') then --Darkseid
     table.insert(elements, {label = 'The Cyborg', value = 'CyborgElite'})
     table.insert(elements, {label = 'Cyborg degeu', value = 'Cyborg'})
     table.insert(elements, {label = 'Cyborg jl', value = 'cyborgjl'})
