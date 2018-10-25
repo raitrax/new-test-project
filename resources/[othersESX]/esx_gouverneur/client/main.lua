@@ -53,24 +53,24 @@ function CloakRoom()
   }
 
   ESX.UI.Menu.CloseAll()
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'security_gouvernor' then --Sbire
+  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'security_gouvernor') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'security_gouvernor') then --Sbire
     table.insert(elements, {label = 'Green Arrow', value = 'CWArrowS4'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'juge' then --Deadshot
+  if (PlayerData.job ~= nil and PlayerData.job.grade_name == 'juge') or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'juge') then --Deadshot
     table.insert(elements, {label = 'Flash', value = 'FlashS4injustice2'})
     table.insert(elements, {label = 'Flash', value = 'FlashJL'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier' then --Deathstroke
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'officier') then --Deathstroke
     table.insert(elements, {label = 'Aquaman', value = 'Aquaman'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'superman' then --Joker
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'superman' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'superman') then --Joker
     table.insert(elements, {label = 'Superman DC', value = 'SupermanDc'})
     table.insert(elements, {label = 'Superman 52', value = 'spn52'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'batman' then --Zoom
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'batman' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'batman') then --Zoom
     table.insert(elements, {label = 'Batman', value = 'BatmanAK'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' or (PlayerData.job2 ~= nil and PlayerData.job2.grade_name == 'boss') then --Darkseid
     table.insert(elements, {label = 'The Cyborg', value = 'CyborgElite'})
     table.insert(elements, {label = 'Cyborg degeu', value = 'Cyborg'})
     table.insert(elements, {label = 'Cyborg jl', value = 'cyborgjl'})
@@ -656,7 +656,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	playerJob = xPlayer.job.name
    	playerGrade = xPlayer.job.grade
 
-	if PlayerData.job.name == 'gouvernor' then
+	if (PlayerData.job.name == 'gouvernor') or (PlayerData.job2.name == 'gouvernor') then
 		Config.Zones.OfficeActions.Type = 1
 		Config.Zones.GarageEnter.Type = 1
 		Config.Zones.HelicoEnter.Type = 1
@@ -675,8 +675,9 @@ RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	
 	PlayerData.job = job
+	PlayerData.job2 = job2
 
-	if PlayerData.job.name == 'gouvernor' then
+	if (PlayerData.job.name == 'gouvernor') or (PlayerData.job2.name == 'gouvernor') then
 		Config.Zones.OfficeActions.Type = 1
 		Config.Zones.GarageEnter.Type = 1
 		Config.Zones.HelicoEnter.Type = 1
@@ -758,7 +759,7 @@ end
 AddEventHandler('esx_gouverneur:hasEnteredMarker', function(zone)
 
 	if zone == 'OfficeEnter' then
-		if PlayerData.job.name == 'gouvernor' then
+		if (PlayerData.job.name == 'gouvernor') or (PlayerData.job2.name == 'gouvernor')  then
 			CurrentAction = 'tp_gouv'
 			CurrentActionMsg = _U('press_to_tp')
 			CurrentActionData = {}
@@ -775,26 +776,26 @@ AddEventHandler('esx_gouverneur:hasEnteredMarker', function(zone)
 		CurrentActionData = {}
 	end
 
-	if zone == 'CloakRoom' or zone == 'CloakRoom2' and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' then
+	if (zone == 'CloakRoom' or zone == 'CloakRoom2' and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor') or (zone == 'CloakRoom' or zone == 'CloakRoom2' and PlayerData.job2 ~= nil and PlayerData.job2.name == 'gouvernor') then
 		CurrentAction     = 'cloakroom_menu'
 		CurrentActionMsg  = _U('press_to_access')
 		CurrentActionData = {}
 	end
 
-	if zone == 'OfficeActions' and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' and PlayerData.job.grade_name == 'boss' then
+	if (zone == 'OfficeActions' and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' and PlayerData.job.grade_name == 'boss') or (zone == 'OfficeActions' and PlayerData.job2 ~= nil and PlayerData.job2.name == 'gouvernor' and PlayerData.job2.grade_name == 'boss') then
 		CurrentAction     = 'gouvernor_menu'
 		CurrentActionMsg  = _U('press_to_access')
 		CurrentActionData = {}
 	end
 
-	if zone == 'GarageEnter' and PlayerData.job.name == 'gouvernor' then
+	if (zone == 'GarageEnter' and PlayerData.job.name == 'gouvernor') or (zone == 'GarageEnter' and PlayerData.job2.name == 'gouvernor') then
 		CurrentAction = 'tp_garage'
 		CurrentActionMsg = _U('press_to_garage')
 		CurrentActionData = {}
 	end
 
 	------ Helicoptère
-	if zone == 'HelicoEnter' and PlayerData.job.name == 'gouvernor' then
+	if (zone == 'HelicoEnter' and PlayerData.job.name == 'gouvernor') or (zone == 'HelicoEnter' and PlayerData.job2.name == 'gouvernor') then
 		CurrentAction = 'tp_helico'
 		CurrentActionMsg = _U('press_to_helico')
 		CurrentActionData = {}
@@ -900,7 +901,7 @@ Citizen.CreateThread(function()
 	while true do
 		
 		Wait(0)
-		if PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' then
+		if (PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor') or (PlayerData.job2 ~= nil and PlayerData.job2.name == 'gouvernor') then
 
 			local coords = GetEntityCoords(GetPlayerPed(-1))
 			for k,v in pairs(Config.Zones) do
@@ -962,7 +963,7 @@ Citizen.CreateThread(function()
 			AddTextComponentString(CurrentActionMsg)
 			DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 
-			if IsControlPressed(0,  Keys['E']) and (GetGameTimer() - GUI.Time) > 300 and PlayerData.job ~= nil then
+			if (IsControlPressed(0,  Keys['E']) and (GetGameTimer() - GUI.Time) > 300 and PlayerData.job ~= nil) or (IsControlPressed(0,  Keys['E']) and (GetGameTimer() - GUI.Time) > 300 and PlayerData.job2 ~= nil) then
 				
 				if CurrentAction == 'tp_gouv' then
 					OpenTpGouv()
@@ -996,23 +997,23 @@ Citizen.CreateThread(function()
 					OpenTpGarageVehicle()
 				end
 
-				if CurrentAction == 'gouvernor_menu' and PlayerData.job.name == 'gouvernor'  then
+				if (CurrentAction == 'gouvernor_menu' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'gouvernor_menu' and PlayerData.job2.name == 'gouvernor') then
 					OpenGouvernorMenu()
 				end
 
-				if CurrentAction == 'cloakroom_menu' and PlayerData.job.name == 'gouvernor'  then
+				if (CurrentAction == 'cloakroom_menu' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'cloakroom_menu' and PlayerData.job2.name == 'gouvernor') then
 					CloakRoom()
 				end
 
-				if CurrentAction == 'vehicle_spawner_menu' and PlayerData.job.name == 'gouvernor' then
+				if (CurrentAction == 'vehicle_spawner_menu' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'vehicle_spawner_menu' and PlayerData.job2.name == 'gouvernor') then
 					OpenVehicleSpawnerMenu()
 				end
 
-				if CurrentAction == 'helico_spawner_menu' and PlayerData.job.name == 'gouvernor' then
+				if (CurrentAction == 'helico_spawner_menu' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'helico_spawner_menu' and PlayerData.job2.name == 'gouvernor') then
 					OpenHelicoSpawnerMenu()
 				end
 
-				if CurrentAction == 'delete_helico' and PlayerData.job.name == 'gouvernor' then
+				if (CurrentAction == 'delete_helico' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'delete_helico' and PlayerData.job2.name == 'gouvernor') then
 							if Config.EnableSocietyOwnedVehicles then
 								local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 								TriggerServerEvent('esx_society:putVehicleInGarage', 'gouvernor', vehicleProps)
@@ -1027,7 +1028,7 @@ Citizen.CreateThread(function()
 							ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
             	end
 
-				 if CurrentAction == 'delete_vehicle' and PlayerData.job.name == 'gouvernor' then
+				 if (CurrentAction == 'delete_vehicle' and PlayerData.job.name == 'gouvernor') or (CurrentAction == 'delete_vehicle' and PlayerData.job2.name == 'gouvernor') then
 							if Config.EnableSocietyOwnedVehicles then
 								local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 								TriggerServerEvent('esx_society:putVehicleInGarage', 'gouvernor', vehicleProps)
@@ -1047,7 +1048,7 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if IsControlJustReleased(0, Keys['F6']) and not isDead and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'gouvernor_actions') then
+		if (IsControlJustReleased(0, Keys['F6']) and not isDead and PlayerData.job ~= nil and PlayerData.job.name == 'gouvernor' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'gouvernor_actions')) or (IsControlJustReleased(0, Keys['F6']) and not isDead and PlayerData.job2 ~= nil and PlayerData.job2.name == 'gouvernor' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'gouvernor_actions')) then
 					OpenGouvernorActionsMenu()
 		end
 
