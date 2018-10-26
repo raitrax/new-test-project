@@ -154,6 +154,12 @@ wwvoid = true
 powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('hulk')
 AddEventHandler('hulk',function()
 	wwvoid = false

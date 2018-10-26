@@ -147,6 +147,12 @@ wwvoid = true
 powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('mv')
 AddEventHandler('mv',function(skin)
 	
@@ -163,7 +169,7 @@ AddEventHandler('mv',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "marvel"
+		skin = "BlackPantherIW"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)

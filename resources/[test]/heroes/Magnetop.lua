@@ -144,6 +144,12 @@ wwvoid = true
 powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('mag')
 --PrintChatMessage("Verify Nerf")
 AddEventHandler('mag',function()

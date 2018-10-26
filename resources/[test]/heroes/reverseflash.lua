@@ -150,6 +150,12 @@ wwvoid = true
 powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 AddEventHandler('rfla',function()
 
 ssranks = 15.0

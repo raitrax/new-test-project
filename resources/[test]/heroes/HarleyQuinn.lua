@@ -152,6 +152,12 @@ AddEventHandler('supergirl',function()
 	powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('hq')
 AddEventHandler('hq',function(skin)
  PrintChatMessage("Hi")

@@ -143,12 +143,20 @@ AddEventHandler('rfla',function()
 	powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('gb')
 AddEventHandler('gb',function(skin)
 
 if powercalled == true then
 return void
 end
+
+
 
 powercalled = true
 -- PrintChatMessage("Step 1")

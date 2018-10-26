@@ -156,13 +156,13 @@ AddEventHandler('supergirl',function()
 	powercalled = false
 end)
 
-RegisterNetEvent('flajl')
-AddEventHandler('flajl',function()
+RegisterNetEvent('fla')
+AddEventHandler('fla',function()
 	wwvoid = true
 	powercalled = false
 end)
 
-AddEventHandler('fla',function()
+AddEventHandler('flajl',function()
 
 ssranks = 15.0
 
@@ -177,7 +177,7 @@ powercalled = true
 -- PrintChatMessage("Step 1")
 
         Wait(1)
-		skin = "FlashS4injustice2"
+		skin = "FlashJL"
 		local model = GetHashKey(skin)
     RequestModel(model)
     while not HasModelLoaded(model) do -- Wait for model to load

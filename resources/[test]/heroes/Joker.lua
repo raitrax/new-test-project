@@ -152,6 +152,12 @@ wwvoid = true
 powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('jk')
 AddEventHandler('jk',function(skin)
 PrintChatMessage("UpT2")

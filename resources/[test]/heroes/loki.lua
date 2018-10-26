@@ -164,6 +164,12 @@ AddEventHandler('supergirl',function()
 	powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('loki')
 AddEventHandler('loki',function(skin)
 

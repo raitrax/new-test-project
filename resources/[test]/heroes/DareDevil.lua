@@ -138,7 +138,11 @@ AddEventHandler('supergirl',function()
 	wwvoid = true
 	powercalled = false
 end)
-
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
 
 RegisterNetEvent('ddMeleeClient')
 AddEventHandler('ddMeleeClient',function(thisx, thisy, campitch, isplayer, session, playerID)

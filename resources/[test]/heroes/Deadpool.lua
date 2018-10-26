@@ -147,6 +147,12 @@ AddEventHandler('supergirl',function()
 	powercalled = false
 end)
 
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
+
 RegisterNetEvent('dp')
 AddEventHandler('dpMeleeClient',function(thisx, thisy, campitch, isplayer, session, playerID)
 	if isplayer == true then

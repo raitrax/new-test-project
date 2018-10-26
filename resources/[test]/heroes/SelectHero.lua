@@ -155,6 +155,11 @@ AddEventHandler('chatMessage', function(source, n, message) -- capture 'chatMess
     CancelEvent() -- dont pass this chat message further, we're handling it
       TriggerClientEvent('fla', source) -- Sends event 'mHandCuff' to playerID
    end
+
+           if (args[1] == "/flashjl") then -- if the first "word" is /cuff
+    CancelEvent() -- dont pass this chat message further, we're handling it
+      TriggerClientEvent('flajl', source) -- Sends event 'mHandCuff' to playerID
+   end
    
            if (args[1] == "/juggernaut") then -- if the first "word" is /cuff
     CancelEvent() -- dont pass this chat message further, we're handling it

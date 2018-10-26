@@ -147,7 +147,11 @@ AddEventHandler('dp',function()
 	powercalled = false
 end)
 
-
+RegisterNetEvent('flajl')
+AddEventHandler('flajl',function()
+	wwvoid = true
+	powercalled = false
+end)
 
 
 RegisterNetEvent('dshot')

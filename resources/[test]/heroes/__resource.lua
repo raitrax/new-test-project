@@ -7,6 +7,7 @@ client_script 'WonderWoman.lua'
 client_script 'Gambit.lua'
 
 client_script 'flash.lua'
+client_script 'flashjl.lua'
 
 client_script 'Magnetop.lua'
 
