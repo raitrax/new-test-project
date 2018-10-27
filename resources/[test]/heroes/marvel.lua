@@ -169,7 +169,7 @@ AddEventHandler('mv',function(skin)
 	--<<LoadModel
 	Wait(1)
 	if tostring(skin) == "" then
-		skin = "BlackPantherIW"
+		skin = "CyborgElite"
 	end
 	local model = GetHashKey(skin)
     RequestModel(model)
