@@ -34,7 +34,7 @@ VK.tips.enable = true; //Enable tips (true : enable, false : prevent)
 VK.tips.list = [ // Tips list
     "Appuyez sur \"F7\" pour accèder à votre iPhone, ainsi que \"ECHAP\" Pour le fermer !", // If you use double-quotes, make sure to put a \ before each double quotes
     "Appuyez sur \"F5\" pour accèder à votre menu personnel !",
-    "Appuyez sur \"F2\" pour accèder à votre inventère !",
+    "Appuyez sur \"F2\" pour accèder à votre inventaire !",
     "Appuyez sur \"U\" pour vérouiller ou déverouiller votre véhicule !",
 	"Appuyez sur \"X\" pour attacher votre ceinture !",
     "Maintenez \"%\" pour mettre vos mains en l'air !",
