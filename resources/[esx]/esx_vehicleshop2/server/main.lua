@@ -14,8 +14,8 @@ function RemoveOwnedVehicle(plate)
 end
 
 MySQL.ready(function()
-	Categories     = MySQL.Sync.fetchAll('SELECT * FROM vehicle_categories')
-	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
+	Categories     = MySQL.Sync.fetchAll('SELECT * FROM vehicle_categories_pub')
+	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM vehicles_pub')
 
 	for i=1, #vehicles, 1 do
 		local vehicle = vehicles[i]
