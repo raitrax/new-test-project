@@ -136,6 +136,10 @@ Config.AuthorizedVehicles = {
 
 	sergeant = {
 		{
+			model = 'sheriff2',
+			label = 'SUV'
+		},
+		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
 		}
@@ -143,12 +147,20 @@ Config.AuthorizedVehicles = {
 
 	intendent = {
 		{
+			model = 'sheriff2',
+			label = 'SUV'
+		},
+		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
 		}
 	},
 
 	lieutenant = {
+		{
+			model = 'sheriff2',
+			label = 'SUV'
+		},
 		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
@@ -164,6 +176,10 @@ Config.AuthorizedVehicles = {
 	},
 
 	chef = {
+		{
+			model = 'sheriff2',
+			label = 'SUV'
+		},
 		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
@@ -182,6 +198,10 @@ Config.AuthorizedVehicles = {
 		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
+		},
+		{
+			model = 'sheriff2',
+			label = 'SUV'
 		},
 		{
 			model = 'policet',

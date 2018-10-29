@@ -1148,6 +1148,7 @@ function OpenVehicleSpawnerMenu()
 				align    = 'top-left',
 				elements = {
 					{label = _U('ambulance'),  value = 'ambulance'},
+					{label = "Voiture ambulance SUV",  value = 'fbi2'},
 					{label = "Voiture ambulance rapide",  value = 'lguard'},
 					{label = "Van Ambulance",  value = 'corspeedo'},
 					{label = _U('helicopter'), value = 'polmav'},
