@@ -92,8 +92,7 @@ function OpenCloakroomMenu()
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'parademon' then --parademon
     table.insert(elements, {label = 'Parademon', value = 'Parademon'})
   end
-  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
-    table.insert(elements, {label = 'Darkseid', value = 'Darkseid'})
+  if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Luthor
   end
     ESX.UI.Menu.Open(
       'default', GetCurrentResourceName(), 'cloakroom',
@@ -237,24 +236,6 @@ function OpenCloakroomMenu()
 
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
           local model = GetHashKey("Joker")
-              RequestModel(model)
-              while not HasModelLoaded(model) do
-                  RequestModel(model)
-                  Citizen.Wait(0)
-              end
-
-              SetPlayerModel(PlayerId(), model)
-              SetModelAsNoLongerNeeded(model)
-              TriggerEvent('skinchanger:loadSkin', skin)
-              TriggerEvent('esx:restoreLoadout')
-
-        end)
-      end
-
-      if data.current.value == 'Darkseid' then
-
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-          local model = GetHashKey("Darkseid")
               RequestModel(model)
               while not HasModelLoaded(model) do
                   RequestModel(model)
