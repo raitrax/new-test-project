@@ -59,6 +59,9 @@ function CloakRoom()
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'juge' then --Deadshot
     table.insert(elements, {label = 'Flash', value = 'FlashS4injustice2'})
     table.insert(elements, {label = 'Flash', value = 'FlashJL'})
+    table.insert(elements, {label = 'Flash Garrick', value = 'Jay_Garrick_Injustice'})
+    table.insert(elements, {label = 'Flash N52', value = 'flash'})
+    table.insert(elements, {label = 'Flash N52 v2', value = 'flashn52'})
   end
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'officier' then --Deathstroke
     table.insert(elements, {label = 'Aquaman', value = 'Aquaman'})
@@ -71,11 +74,7 @@ function CloakRoom()
     table.insert(elements, {label = 'Batman', value = 'BatmanAK'})
   end
   if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Darkseid
-    table.insert(elements, {label = 'The Cyborg', value = 'CyborgElite'})
-    table.insert(elements, {label = 'Cyborg degeu', value = 'Cyborg'})
-    table.insert(elements, {label = 'Cyborg jl', value = 'cyborgjl'})
-    table.insert(elements, {label = 'Cyborg unbreak Elite', value = 'UnbreakableCyborgElite'})
-    table.insert(elements, {label = 'Cyborg unbreak Update', value = 'UnbreakableCyborgUpdated'})
+    table.insert(elements, {label = 'Cyborg', value = 'CyborgElite'})
   end
 
 
@@ -129,10 +128,10 @@ function CloakRoom()
 			end)
 			end
 			--Taken from SuperCoolNinja
-			if data.current.value == 'Cyborg' then
+			if data.current.value == 'flashn52' then
 
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("Cyborg")
+			  local model = GetHashKey("flashn52")
 			      RequestModel(model)
 			      while not HasModelLoaded(model) do
 			          RequestModel(model)
@@ -147,10 +146,10 @@ function CloakRoom()
 			end)
 			end
        		--Taken from SuperCoolNinja
-			if data.current.value == 'cyborgjl' then
+			if data.current.value == 'flash' then
 
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("cyborgjl")
+			  local model = GetHashKey("flash")
 			      RequestModel(model)
 			      while not HasModelLoaded(model) do
 			          RequestModel(model)
@@ -165,28 +164,10 @@ function CloakRoom()
 			end)
 			end
 	               --Taken from SuperCoolNinja
-			if data.current.value == 'UnbreakableCyborgElite' then
+			if data.current.value == 'Jay_Garrick_Injustice' then
 
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("UnbreakableCyborgElite")
-			      RequestModel(model)
-			      while not HasModelLoaded(model) do
-			          RequestModel(model)
-			          Citizen.Wait(0)
-			      end
-
-			      SetPlayerModel(PlayerId(), model)
-			      SetModelAsNoLongerNeeded(model)
-			      TriggerEvent('skinchanger:loadSkin', skin)
-			      TriggerEvent('esx:restoreLoadout')
-
-			end)
-			end
-			--Taken from SuperCoolNinja
-			if data.current.value == 'UnbreakableCyborgUpdated' then
-
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-			  local model = GetHashKey("UnbreakableCyborgUpdated")
+			  local model = GetHashKey("Jay_Garrick_Injustice")
 			      RequestModel(model)
 			      while not HasModelLoaded(model) do
 			          RequestModel(model)
