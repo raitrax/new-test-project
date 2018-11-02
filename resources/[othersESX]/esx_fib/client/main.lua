@@ -491,7 +491,6 @@ function OpenVehicleSpawnerMenu(station, partNum)
     end
     if PlayerData.job ~= nil and PlayerData.job.grade_name == 'boss' then --Batman
       table.insert(elements, { label = 'Vigilante', value = 'Vigilante'})
-      table.insert(elements, { label = 'snyder', value = 'snyder'})
       table.insert(elements, { label = '1989', value = '1989'})
       table.insert(elements, { label = 'lp700', value = 'lp700'})
       table.insert(elements, { label = 'mvisiongt', value = 'mvisiongt'})
