@@ -217,31 +217,6 @@ ESX.RegisterUsableItem('mixapero', function(source)
         TriggerClientEvent('esx:showNotification', source, _U('used_mixapero'))
     
 end)
-ESX.RegisterUsableItem('digiluxenergy', function(source)
-
-	local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
-
-	xPlayer.removeInventoryItem('digiluxenergy', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'thirst', 300000)
-	TriggerClientEvent('esx_basicneeds:onDrink', source)
-	TriggerClientEvent('esx:showNotification', source, _U('used_digiluxenergy'))
-
-end)
-
-ESX.RegisterUsableItem('chocolatebardigilux', function(source)
-
-	local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
-
-	xPlayer.removeInventoryItem('chocolatebardigilux', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'hunger', 200000)
-	TriggerClientEvent('esx_basicneeds:onEat', source)
-	TriggerClientEvent('esx:showNotification', source, _U('used_chocolatebardigilux'))
-
-end)
 
 
 ESX.RegisterUsableItem('İTEM', function(source)

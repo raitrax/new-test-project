@@ -36,12 +36,6 @@ Config.Zones = {
 		}
 	},
 
-	Digilux = {
-		Items = {},
-		Pos = {
-			{x = -30.227,   y = -1675.489, z = 28.519}
-		}
-	},
 
 	LTDgasoline = {
 		Items = {},

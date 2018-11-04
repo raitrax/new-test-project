@@ -80,20 +80,6 @@ Config.localWeight = {
 	alive_chicken = 14890,
 	slaughtered_chicken = 14790,
 	packaged_chicken = 2958,
--- Digilux
-	digiluxenergy = 500000,
-	gpsdigilux = 500000,
-	computer = 50000,
-	chocolatebardigilux = 500000,
-	phone = 500000,
-	motherboard = 500000,
-	processor = 500000,
-	powersupply = 500000,
-	ram = 500000,
-	case = 500000,
-	ssd = 500000,
-	graphiccard = 500000,
-	laptop = 500000,
 	
 	
 -- Brasseur

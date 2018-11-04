@@ -18,6 +18,4 @@ Locales['fr'] = {
 	['used_cigarette'] = '~h~Vous avez fumé une ~b~Cigarette',
 	['used_icetea'] = '~h~Vous avez bu un ~b~Ice Tea',
 	['used_mixapero'] = '~h~Vous avez mangé un ~b~Mix Apéritif',
-	['used_digiluxenergy'] = 'vous avez bu une boisson énergisante Digilux',
-	['used_chocolatebardigilux'] = 'vous avez mangé du chocolat Digilux',
 }
