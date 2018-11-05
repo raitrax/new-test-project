@@ -158,6 +158,10 @@ Config.AuthorizedVehicles = {
 
 	lieutenant = {
 		{
+			model = 'fbi',
+			label = 'Camaro Civil'
+		},
+		{
 			model = 'sheriff2',
 			label = 'SUV'
 		},
@@ -177,6 +181,10 @@ Config.AuthorizedVehicles = {
 
 	chef = {
 		{
+			model = 'fbi',
+			label = 'Camaro Civil'
+		},
+		{
 			model = 'sheriff2',
 			label = 'SUV'
 		},
@@ -195,6 +203,10 @@ Config.AuthorizedVehicles = {
 	},
 
 	boss = {
+		{
+			model = 'fbi',
+			label = 'Camaro Civil'
+		},
 		{
 			model = 'police3',
 			label = 'Véhicule de patrouille 3'
