@@ -1,10 +1,3 @@
-RegisterServerEvent('eden_garage:debug')
-RegisterServerEvent('eden_garage:modifystate')
-RegisterServerEvent('eden_garage:pay')
-RegisterServerEvent('eden_garage:payhealth')
-RegisterServerEvent('eden_garage:logging')
-
-
 ESX                = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -19,7 +12,23 @@ ESX.RegisterServerCallback('eden_garage:getVehicles', function(source, cb)
 	MySQL.Async.fetchAll("SELECT * FROM owned_vehicles WHERE owner=@identifier",{['@identifier'] = xPlayer.getIdentifier()}, function(data) 
 		for _,v in pairs(data) do
 			local vehicle = json.decode(v.vehicle)
-			table.insert(vehicules, {vehicle = vehicle, state = v.state})
+			table.insert(vehicules, {vehicle = vehicle, state = v.state, fourrieremecano = v.fourrieremecano})
+		end
+		cb(vehicules)
+	end)
+end)
+-- Fin --Recupere les véhicules$
+
+--Recupere les véhicules
+ESX.RegisterServerCallback('eden_garage:getVehiclesMecano', function(source, cb)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	local vehicules = {}
+
+	MySQL.Async.fetchAll("select * from owned_vehicles inner join characters on owned_vehicles.owner = characters.identifier where fourrieremecano=@fourrieremecano",{['@fourrieremecano'] = true}, function(data) 
+		for _,v in pairs(data) do
+			local vehicle = json.decode(v.vehicle)
+			table.insert(vehicules, {vehicle = vehicle, state = v.state, fourrieremecano = v.fourrieremecano, firstname = v.firstname, lastname = v.lastname})
 		end
 		cb(vehicules)
 	end)
@@ -33,25 +42,45 @@ ESX.RegisterServerCallback('eden_garage:stockv',function(source,cb, vehicleProps
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local vehicules = getPlayerVehicles(xPlayer.getIdentifier())
 	local plate = vehicleProps.plate
-	print(plate)
+
 	
-		for _,v in pairs(vehicules) do
-			if(plate == v.plate)then
-				local idveh = v.id
-				local vehprop = json.encode(vehicleProps)
-				MySQL.Sync.execute("UPDATE owned_vehicles SET vehicle =@vehprop WHERE id=@id",{['@vehprop'] = vehprop, ['@id'] = v.id})
-				isFound = true
-				break
-			end		
-		end
-		cb(isFound)
+	for _,v in pairs(vehicules) do
+		if(plate == v.plate)then
+			local idveh = v.id
+			local vehprop = json.encode(vehicleProps)
+			MySQL.Sync.execute("UPDATE owned_vehicles SET vehicle =@vehprop WHERE id=@id",{['@vehprop'] = vehprop, ['@id'] = v.id})
+			isFound = true
+			break
+		end		
+	end
+	cb(isFound)
 end)
-
-
 --Fin stock les vehicules
 
---Change le state du véhicule
+ESX.RegisterServerCallback('eden_garage:stockvmecano',function(source,cb, vehicleProps)
+	local plate = vehicleProps.plate
+	
+	MySQL.Async.fetchAll("SELECT * FROM owned_vehicles",{}, function(result) 
+		-- for k,v in pairs(result) do
+		local isFound = false
+		for i=1, #result,1 do
+			local vehicle = json.decode(result[i].vehicle)
 
+			local vehicleplate = vehicle.plate
+			if (plate == vehicleplate) then
+				local vehprop = json.encode(vehicleProps)
+				
+				MySQL.Sync.execute("UPDATE owned_vehicles SET vehicle =@vehprop WHERE id=@id",{['@vehprop'] = vehprop, ['@id'] = result[i].id})
+				isFound = true
+				break
+			end
+		end
+		cb(isFound)
+	end)
+end)
+
+--Change le state du véhicule
+RegisterServerEvent('eden_garage:modifystate')
 AddEventHandler('eden_garage:modifystate', function(vehicleProps, state)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
@@ -67,10 +96,34 @@ AddEventHandler('eden_garage:modifystate', function(vehicleProps, state)
 		end		
 	end
 end)	
-
-
-
 --Fin change le state du véhicule
+
+RegisterServerEvent('eden_garage:ChangeStateFromFourriereMecano')
+AddEventHandler('eden_garage:ChangeStateFromFourriereMecano', function(vehicleProps, fourrieremecano)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	local vehicules = getPlayerVehicles(xPlayer.getIdentifier())
+	local plate = vehicleProps.plate
+	local fourrieremecano = fourrieremecano
+	print(fourrieremecano)
+	
+	MySQL.Async.fetchAll("SELECT * FROM owned_vehicles",{}, function(result) 
+		for i=1, #result,1 do
+			local vehicle = json.decode(result[i].vehicle)
+			local vehicleplate = vehicle.plate
+			if (plate == vehicleplate) then				
+				local idveh = result[i].id
+				MySQL.Sync.execute("UPDATE owned_vehicles SET fourrieremecano =@fourrieremecano WHERE id=@id",{['@fourrieremecano'] = fourrieremecano , ['@id'] = idveh})
+				break
+			end
+		end
+	end)
+end)
+
+
+
+
+
 
 --Fonction qui récupere les plates
 
@@ -84,7 +137,7 @@ ESX.RegisterServerCallback('eden_garage:getOutVehicles',function(source, cb)
 	MySQL.Async.fetchAll("SELECT * FROM owned_vehicles WHERE owner=@identifier AND state=false",{['@identifier'] = xPlayer.getIdentifier()}, function(data) 
 		for _,v in pairs(data) do
 			local vehicle = json.decode(v.vehicle)
-			table.insert(vehicules, vehicle)
+			table.insert(vehicules, {vehicle =vehicle, fourrieremecano = v.fourrieremecano})
 		end
 		cb(vehicules)
 	end)
@@ -105,7 +158,7 @@ end)
 --Fin Foonction qui check l'argent
 
 --fonction qui retire argent
-
+RegisterServerEvent('eden_garage:pay')
 AddEventHandler('eden_garage:pay', function()
 
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -132,6 +185,7 @@ end
 --Fin Recupere les vehicules
 
 --Debug
+RegisterServerEvent('eden_garage:debug')
 AddEventHandler('eden_garage:debug', function(var)
 	print(to_string(var))
 end)
@@ -184,23 +238,28 @@ AddEventHandler('onMySQLReady', function()
 end)
 -- Fin Fonction qui change les etats sorti en rentré lors d'un restart
 
-
---debut de payement pour la santé vehicule
-AddEventHandler('eden_garage:payhealth', function(price)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeMoney(price)
-
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez payé ' .. price)
-
-end)
---fin de payement pour la santé vehicule
-
-
---logger dans la console
-AddEventHandler('eden_garage:logging', function(logging)
-	RconPrint(logging)
-end)
-
---fin de logger dans la console
+function dump(o, nb)
+  if nb == nil then
+    nb = 0
+  end
+   if type(o) == 'table' then
+      local s = ''
+      for i = 1, nb + 1, 1 do
+        s = s .. "    "
+      end
+      s = '{\n'
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+          for i = 1, nb, 1 do
+            s = s .. "    "
+          end
+         s = s .. '['..k..'] = ' .. dump(v, nb + 1) .. ',\n'
+      end
+      for i = 1, nb, 1 do
+        s = s .. "    "
+      end
+      return s .. '}'
+   else
+      return tostring(o)
+   end
+end
