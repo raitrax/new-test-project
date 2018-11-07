@@ -43,11 +43,14 @@ ESX.RegisterServerCallback('eden_garage:stockv',function(source,cb, vehicleProps
 	local vehicules = getPlayerVehicles(xPlayer.getIdentifier())
 	local plate = vehicleProps.plate
 
-	
+	print("11")
 	for _,v in pairs(vehicules) do
+	print("111")
 		if(plate == v.plate)then
+	print("1111")
 			local idveh = v.id
 			local vehprop = json.encode(vehicleProps)
+			print("UPDATE owned_vehicles SET vehicle =@vehprop WHERE id=@id",{['@vehprop'] = vehprop, ['@id'] = v.id})
 			MySQL.Sync.execute("UPDATE owned_vehicles SET vehicle =@vehprop WHERE id=@id",{['@vehprop'] = vehprop, ['@id'] = v.id})
 			isFound = true
 			break
