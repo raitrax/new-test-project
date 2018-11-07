@@ -239,7 +239,7 @@ ESX.RegisterUsableItem('viande', function(source)
 
 end)
 
--ESX.RegisterUsableItem('İTEM', function(source)
+ESX.RegisterUsableItem('İTEM', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
    xPlayer.setJob('JOB', 'GRADE')
 end)
@@ -340,7 +340,6 @@ ESX.RegisterUsableItem('police6', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
    xPlayer.setJob('police', '6')
 end)
-ESX.RegisterUsableItem('viande', function(source)
 
 --FIB--
 ESX.RegisterUsableItem('fib0', function(source)
@@ -359,7 +358,6 @@ ESX.RegisterUsableItem('fib3', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
    xPlayer.setJob('fib', '3')
 end)
-	xPlayer.removeInventoryItem('viande', 1)
 
 --AMBULANCE--
 ESX.RegisterUsableItem('ambulance0', function(source)
