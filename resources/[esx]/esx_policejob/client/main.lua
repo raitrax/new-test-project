@@ -167,6 +167,10 @@ function OpenCloakroomMenu()
 					if isInService then
 
 						playerInService = false
+						exports.ft_libs:DisableArea("esx_eden_garage_area_police_mecanodeletepoint")
+						exports.ft_libs:DisableArea("esx_eden_garage_area_police_mecanospawnpoint")	  
+						exports.ft_libs:DisableArea("esx_eden_garage_area_Bennys_mecanodeletepoint")
+						exports.ft_libs:DisableArea("esx_eden_garage_area_Bennys_mecanospawnpoint")
 
 						local notification = {
 							title    = _U('service_anonunce'),
@@ -199,7 +203,10 @@ function OpenCloakroomMenu()
 
 							serviceOk = true
 							playerInService = true
-
+							exports.ft_libs:EnableArea("esx_eden_garage_area_police_mecanodeletepoint")
+							exports.ft_libs:EnableArea("esx_eden_garage_area_police_mecanospawnpoint")	  
+							exports.ft_libs:EnableArea("esx_eden_garage_area_Bennys_mecanodeletepoint")
+							exports.ft_libs:EnableArea("esx_eden_garage_area_Bennys_mecanospawnpoint")
 							local notification = {
 								title    = _U('service_anonunce'),
 								subject  = '',

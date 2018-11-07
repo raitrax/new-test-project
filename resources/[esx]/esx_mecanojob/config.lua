@@ -1,6 +1,6 @@
 Config                            = {}
 Config.DrawDistance               = 100.0
-Config.MaxInService               = -1
+Config.MaxInService               = 10
 Config.EnablePlayerManagement     = true
 Config.EnableSocietyOwnedVehicles = false
 Config.NPCSpawnDistance           = 500.0
