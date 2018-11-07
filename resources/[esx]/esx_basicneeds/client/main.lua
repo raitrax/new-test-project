@@ -1,11 +1,10 @@
 ESX          = nil
 local IsDead = false
-local IsAnimated = false
 
 Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
+		Citizen.Wait(1)
 	end
 end)
 
@@ -26,21 +25,21 @@ end)
 
 AddEventHandler('esx_status:loaded', function(status)
 
-	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#00dc50', --#ff6108 --#00dc50 --#F59114 --#FF0000
+	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#b51515',
 		function(status)
 			return true
 		end,
 		function(status)
-			status.remove(100)
+			status.remove(200)
 		end
 	)
 
-	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0096ff',
+	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0172ba',
 		function(status)
 			return true
 		end,
 		function(status)
-			status.remove(150)
+			status.remove(250)
 		end
 	)
 
@@ -108,431 +107,455 @@ AddEventHandler('esx_status:loaded', function(status)
 
 end)
 
-AddEventHandler('esx_basicneeds:isEating', function(cb)
-	cb(IsAnimated)
-end)
-
 RegisterNetEvent('esx_basicneeds:onEat')
-AddEventHandler('esx_basicneeds:onEat', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_cs_burger_01'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
+AddEventHandler('esx_basicneeds:onEat', function()
+  
+	Citizen.CreateThread(function()
+
+	  local playerPed = GetPlayerPed(-1)
+	  local coords    = GetEntityCoords(playerPed)
+	  local boneIndex = GetPedBoneIndex(playerPed, 18905)
+	  
+	  RequestAnimDict('mp_player_inteat@burger')
+	  
+	  while not HasAnimDictLoaded('mp_player_inteat@burger') do
+	  	Citizen.Wait(1)
+	  end
+
+		ESX.Game.SpawnObject('prop_cs_burger_01', {
+			x = coords.x,
+			y = coords.y,
+			z = coords.z + 2
+		}, function(object)
+
+			Citizen.CreateThread(function()
+
+			  AttachEntityToEntity(object, playerPed, boneIndex, 0.12, 0, 0.02, 90.0, 90.0, 410.0, true, true, false, true, 1, true)
+			  Citizen.Wait(1000)
+			  TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger', 1.0, -1.0, 2000, 0, 1, true, true, true)
+			  Citizen.Wait(2000)
+			  DeleteObject(object)
+
+			end)
+
+		end)
+
+	end)
+
 end)
 
 RegisterNetEvent('esx_basicneeds:onDrink')
-AddEventHandler('esx_basicneeds:onDrink', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'prop_ld_flow_bottle'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
+AddEventHandler('esx_basicneeds:onDrink', function()
+
+	Citizen.CreateThread(function()
+
+	  local playerPed = GetPlayerPed(-1)
+	  local coords    = GetEntityCoords(playerPed)
+	  local boneIndex = GetPedBoneIndex(playerPed, 57005)
+	  
+	  RequestAnimDict('amb@world_human_drinking@coffee@male@idle_a')
+	  
+	  while not HasAnimDictLoaded('amb@world_human_drinking@coffee@male@idle_a') do
+	  	Citizen.Wait(1)
+	  end
+
+		ESX.Game.SpawnObject('prop_ld_flow_bottle', {
+				x = coords.x,
+				y = coords.y,
+				z = coords.z + 2
+			}, function(object)
+
+				Citizen.CreateThread(function()
+
+				  AttachEntityToEntity(object, playerPed, boneIndex, 0.12, 0, -0.02, 90.0, 90.0, 210.0, true, true, false, true, 1, true)
+				  Citizen.Wait(1000)
+				  TaskPlayAnim(playerPed, 'amb@world_human_drinking@coffee@male@idle_a', 'idle_a', 1.0, -1.0, 2000, 0, 1, true, true, true)
+				  Citizen.Wait(5000)
+				  DeleteObject(object)
+
+				end)
+
+			end)
+
+	 end)
+
 end)
 
-RegisterNetEvent('esx_basicneeds:onPain')
-AddEventHandler('esx_basicneeds:onPain', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_food_bs_burg1'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
+----------------------------------------------------------------------------------------------
+---------------------------------------EAT SANDWICH(Hot-Dog) ------------------------------------------
+----------------------------------------------------------------------------------------------
 
-RegisterNetEvent('esx_basicneeds:onDonut')
-AddEventHandler('esx_basicneeds:onDonut', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_donut_02'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
+RegisterNetEvent('esx_basicneeds:sandwich')
+AddEventHandler('esx_basicneeds:sandwich', function()
 
-RegisterNetEvent('esx_basicneeds:onSandwich')
-AddEventHandler('esx_basicneeds:onSandwich', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_sandwich_01'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onTacos')
-AddEventHandler('esx_basicneeds:onTacos', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_taco_01'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onSoda')
-AddEventHandler('esx_basicneeds:onSoda', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'ng_proc_sodacan_01b'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onCola')
-AddEventHandler('esx_basicneeds:onCola', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'ng_proc_sodabot_01a'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onCafe')
-AddEventHandler('esx_basicneeds:onCafe', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'ng_proc_coffee_01a'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onBiere')
-AddEventHandler('esx_basicneeds:onBiere', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'prop_beer_bar'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onRedbull')
-AddEventHandler('esx_basicneeds:onRedbull', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'ng_proc_sodacan_01a'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onHotdog')
-AddEventHandler('esx_basicneeds:onHotdog', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_cs_hotdog_01'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onChips')
-AddEventHandler('esx_basicneeds:onChips', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_food_bs_chips'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onFish')
-AddEventHandler('esx_basicneeds:onFish', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_food_bs_burg1'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onPizza')
-AddEventHandler('esx_basicneeds:onPizza', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_food_bs_chips'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
-end)
-
-RegisterNetEvent('esx_basicneeds:onSmoke')
-AddEventHandler('esx_basicneeds:onSmoke', function()
-  
   local playerPed = GetPlayerPed(-1)
-  
-  TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_SMOKING", 0, 1)
-  Citizen.Wait(45000)
-  ClearPedTasksImmediately(playerPed)
+  local coords    = GetEntityCoords(playerPed)
 
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@code_human_wander_eating_donut@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@code_human_wander_eating_donut@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_cs_hotdog_01', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@code_human_wander_eating_donut@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.15, 0.01, -0.06, 185.0, 215.0, 180.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
 end)
 
-RegisterNetEvent('esx_basicneeds:onIcetea')
-AddEventHandler('esx_basicneeds:onIcetea', function(prop_name)
-	if not IsAnimated then
-		local prop_name = prop_name or 'prop_energy_drink'
-		IsAnimated = true
-		local playerPed = GetPlayerPed(-1)
-		Citizen.CreateThread(function()
-			local x,y,z = table.unpack(GetEntityCoords(playerPed))
-			prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)			
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-			RequestAnimDict('mp_player_intdrink')  
-			while not HasAnimDictLoaded('mp_player_intdrink') do
-				Wait(0)
-			end
-			TaskPlayAnim(playerPed, 'mp_player_intdrink', 'loop_bottle', 1.0, -1.0, 2000, 0, 1, true, true, true)
-			Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-			DeleteObject(prop)
-		end)
-	end
+
+----------------------------------------------------------------------------------------------
+---------------------------------------EAT HAMBURGER ------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:hamburger')
+AddEventHandler('esx_basicneeds:hamburger', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@code_human_wander_eating_donut@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@code_human_wander_eating_donut@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_cs_burger_01', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@code_human_wander_eating_donut@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.15, 0.01, -0.06, 185.0, 215.0, 180.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
 end)
 
-RegisterNetEvent('esx_basicneeds:onMixapero')
-AddEventHandler('esx_basicneeds:onMixapero', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'prop_food_cb_chips'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
+----------------------------------------------------------------------------------------------
+---------------------------------------EAT BigMac ------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:bigmac')
+AddEventHandler('esx_basicneeds:bigmac', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@code_human_wander_eating_donut@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@code_human_wander_eating_donut@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_cs_burger_01', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@code_human_wander_eating_donut@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.15, 0.01, -0.06, 185.0, 215.0, 180.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
 end)
 
-RegisterNetEvent('esx_basicneeds:onOrange')
-AddEventHandler('esx_basicneeds:onOrange', function(prop_name)
-    if not IsAnimated then
-		local prop_name = prop_name or 'ng_proc_food_ornge1a'
-    	IsAnimated = true
-	    local playerPed = GetPlayerPed(-1)
-	    Citizen.CreateThread(function()
-	        local x,y,z = table.unpack(GetEntityCoords(playerPed))
-	        prop = CreateObject(GetHashKey(prop_name), x, y, z+0.2,  true,  true, true)
-	        AttachEntityToEntity(prop, playerPed, GetPedBoneIndex(playerPed, 18905), 0.12, 0.028, 0.001, 10.0, 175.0, 0.0, true, true, false, true, 1, true)
-	        RequestAnimDict('mp_player_inteat@burger')
-	        while not HasAnimDictLoaded('mp_player_inteat@burger') do
-	            Wait(0)
-	        end
-	        TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger_fp', 8.0, -8, -1, 49, 0, 0, 0, 0)
-	        Wait(3000)
-	        IsAnimated = false
-	        ClearPedSecondaryTask(playerPed)
-	        DeleteObject(prop)
-	    end)
-	end
+----------------------------------------------------------------------------------------------
+---------------------------------------DRINK COCA---------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:coca')
+AddEventHandler('esx_basicneeds:coca', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_ecola_can', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, 0.02, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
+end)
+
+----------------------------------------------------------------------------------------------
+---------------------------------------DRINK 7up---------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:sprunk')
+AddEventHandler('esx_basicneeds:sprunk', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_ld_can_01', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, 0.02, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
+end)
+
+----------------------------------------------------------------------------------------------
+---------------------------------------DRINK EAU---------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:water')
+AddEventHandler('esx_basicneeds:water', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_ld_flow_bottle', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, 0.02, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
+end)
+
+-----------------------------------------------------------------------------------------------
+---------------------------------------DRINK EAU G---------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:waterg')
+AddEventHandler('esx_basicneeds:waterg', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_ld_flow_bottle', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, 0.02, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
+end)
+
+----------------------------------------------------------------------------------------------
+---------------------------------------DRINK SODA---------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:soda')
+AddEventHandler('esx_basicneeds:soda', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_orang_can_01', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, 0.02, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
+end)
+
+----------------------------------------------------------------------------------------------
+---------------------------------------DRINK COCKTAIL---------------------------------------------
+----------------------------------------------------------------------------------------------
+
+RegisterNetEvent('esx_basicneeds:cocktail')
+AddEventHandler('esx_basicneeds:cocktail', function()
+
+  local playerPed = GetPlayerPed(-1)
+  local coords    = GetEntityCoords(playerPed)
+
+	Citizen.CreateThread(function()
+    
+    local playerPed  = GetPlayerPed(-1)
+    local coords     = GetEntityCoords(playerPed)
+    local boneIndex  = GetPedBoneIndex(playerPed, 18905)
+    local boneIndex2 = GetPedBoneIndex(playerPed, 57005)
+
+      RequestAnimDict('amb@world_human_drinking@beer@male@idle_a')
+        
+    while not HasAnimDictLoaded('amb@world_human_drinking@beer@male@idle_a') do
+      Citizen.Wait(1)
+    end
+    
+    ESX.Game.SpawnObject('prop_cocktail', {
+      x = coords.x,
+      y = coords.y,
+      z = coords.z - 3
+    }, function(object)
+
+    
+    Citizen.CreateThread(function()
+    
+      TaskPlayAnim(playerPed, "amb@world_human_drinking@beer@male@idle_a", "idle_c", 3.5, -8, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(object, playerPed, boneIndex2, 0.13, -0.06, -0.05, -85.0, 175.0, 0.0, true, true, false, true, 1, true)
+      Citizen.Wait(6500)
+      DeleteObject(object)
+      ClearPedSecondaryTask(playerPed)
+      end)
+    end)
+  end)
 end)

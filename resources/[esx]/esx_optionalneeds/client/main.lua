@@ -5,7 +5,7 @@ local DrunkLevel     = -1
 Citizen.CreateThread(function()
   while ESX == nil do
     TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-    Citizen.Wait(0)
+    Citizen.Wait(1)
   end
 end)
 
@@ -17,7 +17,7 @@ function Drunk(level, start)
 
     if start then
       DoScreenFadeOut(800)
-      Wait(1000)
+      Citizen.Wait(1000)
     end
 
     if level == 0 then
@@ -25,7 +25,7 @@ function Drunk(level, start)
       RequestAnimSet("move_m@drunk@slightlydrunk")
       
       while not HasAnimSetLoaded("move_m@drunk@slightlydrunk") do
-        Citizen.Wait(0)
+        Citizen.Wait(1)
       end
 
       SetPedMovementClipset(playerPed, "move_m@drunk@slightlydrunk", true)
@@ -35,7 +35,7 @@ function Drunk(level, start)
       RequestAnimSet("move_m@drunk@moderatedrunk")
       
       while not HasAnimSetLoaded("move_m@drunk@moderatedrunk") do
-        Citizen.Wait(0)
+        Citizen.Wait(1)
       end
 
       SetPedMovementClipset(playerPed, "move_m@drunk@moderatedrunk", true)
@@ -45,7 +45,7 @@ function Drunk(level, start)
       RequestAnimSet("move_m@drunk@verydrunk")
       
       while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
-        Citizen.Wait(0)
+        Citizen.Wait(1)
       end
 
       SetPedMovementClipset(playerPed, "move_m@drunk@verydrunk", true)
@@ -71,7 +71,7 @@ function Reality()
     local playerPed = GetPlayerPed(-1)
 
     DoScreenFadeOut(800)
-    Wait(1000)
+    Citizen.Wait(1000)
 
     ClearTimecycleModifier()
     ResetScenarioTypesEnabled()
@@ -104,7 +104,7 @@ AddEventHandler('esx_status:loaded', function(status)
 
 		while true do
 
-			Wait(1000)
+			Citizen.Wait(1000)
 
 			TriggerEvent('esx_status:getStatus', 'drunk', function(status)
 				
@@ -163,3 +163,4 @@ AddEventHandler('esx_optionalneeds:onDrink', function()
   ClearPedTasksImmediately(playerPed)
 
 end)
+
