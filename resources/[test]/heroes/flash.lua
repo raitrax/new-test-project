@@ -177,7 +177,7 @@ powercalled = true
 -- PrintChatMessage("Step 1")
 
         Wait(1)
-		skin = "Jay_Garrick_Injustice"
+		skin = "blackflash"
 		local model = GetHashKey(skin)
     RequestModel(model)
     while not HasModelLoaded(model) do -- Wait for model to load
