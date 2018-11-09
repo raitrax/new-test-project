@@ -193,4 +193,22 @@ Config.TeleportZones = {
     Hint      = _U('e_to_exit_2'),
     Teleport  = { x = -1391.1589, y = -597.6850, z = 30.3194 },
   },
+
+  EnterDepot = {
+    Pos       = { x = 1026.7446, y = -3101.64, z = -40.12 },
+    Size      = { x = 1.2, y = 1.2, z = 0.5 },
+    Color     = { r = 200, g = 200, b = 200 },
+    Marker    = 1,
+    Hint      = "Entré Dépot",
+    Teleport  = { x = -1405.24, y = -630.14, z = 27.67 }
+  },
+
+  ExitDepot = {
+    Pos       = { x = -1405.24, y = -630.14, z = 27.67 },
+    Size      = { x = 1.2, y = 1.2, z = 0.5 },
+    Color     = { r = 200, g = 200, b = 200 },
+    Marker    = 1,
+    Hint      = "Sortie Dépot",
+    Teleport  = { x = 1026.7446, y = -3101.64, z = -40.12 },
+  },
 }
