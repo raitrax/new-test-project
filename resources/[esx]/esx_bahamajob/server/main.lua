@@ -1,262 +1,659 @@
-ESX                    = nil
-local PlayersCrafting  = {}
-local PlayersCrafting2 = {}
-local PlayersCrafting3 = {}
-local PlayersCrafting4 = {}
+ESX                = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-TriggerEvent('esx_society:registerSociety', 'bahama', 'Bahama mas', 'society_bahama', 'society_bahama', 'society_bahama', {type = 'private'})
-
-------------------------------------------------------------------------------------------------------------
------------------------------------------------Alcool de myrte----------------------------------------------
-------------------------------------------------------------------------------------------------------------
-
-local function Craft(source)
-
-	SetTimeout(4000, function()
-
-		if PlayersCrafting[source] == true then
-
-			local xPlayer  = ESX.GetPlayerFromId(source)
-			local alcool = xPlayer.getInventoryItem('alcool').count
-			local myrte = xPlayer.getInventoryItem('myrte').count
-			local myrtealcool = xPlayer.getInventoryItem('myrtealcool').count
-
-			if alcool <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'alcool')		
-			end
-			if myrte <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ de myrte')	
-			end 
-			if myrtealcool >= 1 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous devez servire avant de refaire un cocktail')	
-			else
-        		xPlayer.removeInventoryItem('alcool', 1)
-				xPlayer.removeInventoryItem('myrte', 1)
-        		xPlayer.addInventoryItem('myrtealcool', 1)
-					
-			  Craft(source)
-			end
-		end
-	end)
+if Config.MaxInService ~= -1 then
+  TriggerEvent('esx_service:activateService', 'bahama', Config.MaxInService)
 end
 
-RegisterServerEvent('esx_bahamajob:myrtealcool')
-AddEventHandler('esx_bahamajob:myrtealcool', function()
-	local _source = source
-	PlayersCrafting[_source] = true
-	TriggerClientEvent('esx:showNotification', _source, 'Préparation de ~b~Alcool de Myrte~s~...')
-	Craft(_source)
+TriggerEvent('esx_phone:registerNumber', 'bahama', _U('bahama_customer'), true, true)
+TriggerEvent('esx_society:registerSociety', 'bahama', 'Bahama', 'society_bahama', 'society_bahama', 'society_bahama', {type = 'private'})
+
+
+
+RegisterServerEvent('esx_bahamajob:getStockItem')
+AddEventHandler('esx_bahamajob:getStockItem', function(itemName, count)
+
+  local xPlayer = ESX.GetPlayerFromId(source)
+
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama', function(inventory)
+
+    local item = inventory.getItem(itemName)
+
+    if item.count >= count then
+      inventory.removeItem(itemName, count)
+      xPlayer.addInventoryItem(itemName, count)
+    else
+      TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+    end
+
+    TriggerClientEvent('esx:showNotification', xPlayer.source, _U('you_removed') .. count .. ' ' .. item.label)
+
+  end)
+
 end)
 
-RegisterServerEvent('esx_bahamajob:stopCraft')
-AddEventHandler('esx_bahamajob:stopCraft', function()
-	local _source = source
-	PlayersCrafting[_source] = false
+ESX.RegisterServerCallback('esx_bahamajob:getStockItems', function(source, cb)
+
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama', function(inventory)
+    cb(inventory.items)
+  end)
+
 end)
 
-------------------------------------------------------------------------------------------------------------
------------------------------------------------Whisky CoaCola-------------------------------------------------
-------------------------------------------------------------------------------------------------------------
+RegisterServerEvent('esx_bahamajob:putStockItems')
+AddEventHandler('esx_bahamajob:putStockItems', function(itemName, count)
 
-local function Craft2(source)
+  local xPlayer = ESX.GetPlayerFromId(source)
 
-	SetTimeout(4000, function()
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama', function(inventory)
 
-		if PlayersCrafting2[source] == true then
+    local item = inventory.getItem(itemName)
+    local playerItemCount = xPlayer.getInventoryItem(itemName).count
 
-			local xPlayer  = ESX.GetPlayerFromId(source)
-			local alcool = xPlayer.getInventoryItem('alcool').count
-			local cocacola = xPlayer.getInventoryItem('cocacola').count
-			local whiskycoc = xPlayer.getInventoryItem('whiskycoc').count 
+    if item.count >= 0 and count <= playerItemCount then
+      xPlayer.removeInventoryItem(itemName, count)
+      inventory.addItem(itemName, count)
+    else
+      TriggerClientEvent('esx:showNotification', xPlayer.source, _U('invalid_quantity'))
+    end
 
-			if alcool <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'alcool')		
-			end
-			if cocacola <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ de CocaCola')		
-			end
-			if whiskycoc >= 1 then 
-				TriggerClientEvent('esx:showNotification', source, 'Vous devez servire avant de refaire un cocktail')		
-			else
-       			xPlayer.removeInventoryItem('alcool', 1)
-				xPlayer.removeInventoryItem('cocacola', 1)
-        		xPlayer.addInventoryItem('whiskycoc', 1)
-					
-				Craft2(source)
-			end
-		end
-	end)
-end
+    TriggerClientEvent('esx:showNotification', xPlayer.source, _U('you_added') .. count .. ' ' .. item.label)
 
-RegisterServerEvent('esx_bahamajob:whiskycoc')
-AddEventHandler('esx_bahamajob:whiskycoc', function()
-	local _source = source
-	PlayersCrafting2[_source] = true
-	TriggerClientEvent('esx:showNotification', _source, 'Préparation du ~b~Whisky CocaCola~s~...')
-	Craft2(_source)
+  end)
+
 end)
 
-RegisterServerEvent('esx_bahamajob:stopCraft2')
-AddEventHandler('esx_bahamajob:stopCraft2', function()
-	local _source = source
-	PlayersCrafting2[_source] = false
-end)
-------------------------------------------------------------------------------------------------------------
------------------------------------------------Jus d'orange-------------------------------------------------
-------------------------------------------------------------------------------------------------------------
 
-local function Craft3(source)
+RegisterServerEvent('esx_bahamajob:getFridgeStockItem')
+AddEventHandler('esx_bahamajob:getFridgeStockItem', function(itemName, count)
 
-	SetTimeout(4000, function()
+  local xPlayer = ESX.GetPlayerFromId(source)
 
-		if PlayersCrafting3[source] == true then
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama_fridge', function(inventory)
 
-			local xPlayer  = ESX.GetPlayerFromId(source)
-			local alcool = xPlayer.getInventoryItem('alcool').count
-			local redbull = xPlayer.getInventoryItem('redbull').count
-			local vodkrb = xPlayer.getInventoryItem('vodkrb').count 
+    local item = inventory.getItem(itemName)
 
-			if alcool <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'alcool')		
-			end
-			if redbull <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ de redbull')		
-			end
-			if vodkrb >= 1 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous devez servire avant de refaire un cocktail')	
-			else
-       			xPlayer.removeInventoryItem('alcool', 1)
-				xPlayer.removeInventoryItem('redbull', 1)
-       			xPlayer.addInventoryItem('vodkrb', 1)
-					
-				Craft3(source)
-			end
-		end
-	end)
-end
+    if item.count >= count then
+      inventory.removeItem(itemName, count)
+      xPlayer.addInventoryItem(itemName, count)
+    else
+      TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+    end
 
-RegisterServerEvent('esx_bahamajob:vodkarb')
-AddEventHandler('esx_bahamajob:vodkarb', function()
-	local _source = source
-	PlayersCrafting3[_source] = true
-	TriggerClientEvent('esx:showNotification', _source, 'Préparation de la ~b~Vodka RedBull~s~...')
-	Craft3(_source)
+    TriggerClientEvent('esx:showNotification', xPlayer.source, _U('you_removed') .. count .. ' ' .. item.label)
+
+  end)
+
 end)
 
-RegisterServerEvent('esx_bahamajob:stopCraft3')
-AddEventHandler('esx_bahamajob:stopCraft3', function()
-	local _source = source
-	PlayersCrafting3[_source] = false
+ESX.RegisterServerCallback('esx_bahamajob:getFridgeStockItems', function(source, cb)
+
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama_fridge', function(inventory)
+    cb(inventory.items)
+  end)
+
 end)
 
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
+RegisterServerEvent('esx_bahamajob:putFridgeStockItems')
+AddEventHandler('esx_bahamajob:putFridgeStockItems', function(itemName, count)
+
+  local xPlayer = ESX.GetPlayerFromId(source)
+
+  TriggerEvent('esx_addoninventory:getSharedInventory', 'society_bahama_fridge', function(inventory)
+
+    local item = inventory.getItem(itemName)
+    local playerItemCount = xPlayer.getInventoryItem(itemName).count
+
+    if item.count >= 0 and count <= playerItemCount then
+      xPlayer.removeInventoryItem(itemName, count)
+      inventory.addItem(itemName, count)
+    else
+      TriggerClientEvent('esx:showNotification', xPlayer.source, _U('invalid_quantity'))
+    end
+
+    TriggerClientEvent('esx:showNotification', xPlayer.source, _U('you_added') .. count .. ' ' .. item.label)
+
+  end)
+
+end)
+
+
+RegisterServerEvent('esx_bahamajob:buyItem')
+AddEventHandler('esx_bahamajob:buyItem', function(itemName, price, itemLabel)
+
+    local _source = source
+    local xPlayer  = ESX.GetPlayerFromId(_source)
+    local limit = xPlayer.getInventoryItem(itemName).limit
+    local qtty = xPlayer.getInventoryItem(itemName).count
+
+    if xPlayer.get('money') >= price then
+        if qtty < limit then
+            xPlayer.removeMoney(price)
+            xPlayer.addInventoryItem(itemName, 1)
+            TriggerClientEvent('esx:showNotification', _source, _U('bought') .. itemLabel)
+        else
+            TriggerClientEvent('esx:showNotification', _source, _U('max_item'))
+        end
+    else
+        TriggerClientEvent('esx:showNotification', _source, _U('not_enough'))
+    end
+
+end)
+
+
+RegisterServerEvent('esx_bahamajob:craftingCoktails')
+AddEventHandler('esx_bahamajob:craftingCoktails', function(itemValue)
+
+    local _source = source
+    local _itemValue = itemValue
+    TriggerClientEvent('esx:showNotification', _source, _U('assembling_cocktail'))
+
+    if _itemValue == 'jagerbomb' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('energy').count
+            local bethQuantity      = xPlayer.getInventoryItem('jager').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('energy') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('jager') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('energy', 2)
+                    xPlayer.removeInventoryItem('jager', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('jagerbomb') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('energy', 2)
+                    xPlayer.removeInventoryItem('jager', 2)
+                    xPlayer.addInventoryItem('jagerbomb', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'golem' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('limonade').count
+            local bethQuantity      = xPlayer.getInventoryItem('vodka').count
+            local gimelQuantity     = xPlayer.getInventoryItem('ice').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('limonade') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('vodka') .. '~w~')
+            elseif gimelQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('ice') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('golem') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                    xPlayer.addInventoryItem('golem', 1)
+                end
+            end
+
+        end)
+    end
+    
+    if _itemValue == 'whiskycoca' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('soda').count
+            local bethQuantity      = xPlayer.getInventoryItem('whisky').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('soda') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('whisky') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('soda', 2)
+                    xPlayer.removeInventoryItem('whisky', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('whiskycoca') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('soda', 2)
+                    xPlayer.removeInventoryItem('whisky', 2)
+                    xPlayer.addInventoryItem('whiskycoca', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'rhumcoca' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('soda').count
+            local bethQuantity      = xPlayer.getInventoryItem('rhum').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('soda') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('rhum') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('soda', 2)
+                    xPlayer.removeInventoryItem('rhum', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('rhumcoca') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('soda', 2)
+                    xPlayer.removeInventoryItem('rhum', 2)
+                    xPlayer.addInventoryItem('rhumcoca', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'vodkaenergy' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('energy').count
+            local bethQuantity      = xPlayer.getInventoryItem('vodka').count
+            local gimelQuantity     = xPlayer.getInventoryItem('ice').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('energy') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('vodka') .. '~w~')
+            elseif gimelQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('ice') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('energy', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('vodkaenergy') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('energy', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                    xPlayer.addInventoryItem('vodkaenergy', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'vodkafruit' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('jusfruit').count
+            local bethQuantity      = xPlayer.getInventoryItem('vodka').count
+            local gimelQuantity     = xPlayer.getInventoryItem('ice').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('jusfruit') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('vodka') .. '~w~')
+            elseif gimelQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('ice') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('jusfruit', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('vodkafruit') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('jusfruit', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                    xPlayer.addInventoryItem('vodkafruit', 1) 
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'rhumfruit' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('jusfruit').count
+            local bethQuantity      = xPlayer.getInventoryItem('rhum').count
+            local gimelQuantity     = xPlayer.getInventoryItem('ice').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('jusfruit') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('rhum') .. '~w~')
+            elseif gimelQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('ice') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('jusfruit', 2)
+                    xPlayer.removeInventoryItem('rhum', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('rhumfruit') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('jusfruit', 2)
+                    xPlayer.removeInventoryItem('rhum', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                    xPlayer.addInventoryItem('rhumfruit', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'teqpaf' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('limonade').count
+            local bethQuantity      = xPlayer.getInventoryItem('tequila').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('limonade') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('tequila') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('teqpaf') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                    xPlayer.addInventoryItem('teqpaf', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'mojito' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('rhum').count
+            local bethQuantity      = xPlayer.getInventoryItem('limonade').count
+            local gimelQuantity     = xPlayer.getInventoryItem('menthe').count
+            local daletQuantity      = xPlayer.getInventoryItem('ice').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('rhum') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('limonade') .. '~w~')
+            elseif gimelQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('menthe') .. '~w~')
+            elseif daletQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('ice') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('rhum', 2)
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('menthe', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('mojito') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('rhum', 2)
+                    xPlayer.removeInventoryItem('limonade', 2)
+                    xPlayer.removeInventoryItem('menthe', 2)
+                    xPlayer.removeInventoryItem('ice', 1)
+                    xPlayer.addInventoryItem('mojito', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'mixapero' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('bolcacahuetes').count
+            local bethQuantity      = xPlayer.getInventoryItem('bolnoixcajou').count
+            local gimelQuantity     = xPlayer.getInventoryItem('bolpistache').count
+            local daletQuantity     = xPlayer.getInventoryItem('bolchips').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('bolcacahuetes') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('bolnoixcajou') .. '~w~')
+            elseif gimelQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('bolpistache') .. '~w~')
+            elseif daletQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('bolchips') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('bolcacahuetes', 2)
+                    xPlayer.removeInventoryItem('bolnoixcajou', 2)
+                    xPlayer.removeInventoryItem('bolpistache', 2)
+                    xPlayer.removeInventoryItem('bolchips', 1)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('mixapero') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('bolcacahuetes', 2)
+                    xPlayer.removeInventoryItem('bolnoixcajou', 2)
+                    xPlayer.removeInventoryItem('bolpistache', 2)
+                    xPlayer.removeInventoryItem('bolchips', 2)
+                    xPlayer.addInventoryItem('mixapero', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'metreshooter' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('jager').count
+            local bethQuantity      = xPlayer.getInventoryItem('vodka').count
+            local gimelQuantity     = xPlayer.getInventoryItem('whisky').count
+            local daletQuantity     = xPlayer.getInventoryItem('tequila').count
+
+            if alephQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('jager') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('vodka') .. '~w~')
+            elseif gimelQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('whisky') .. '~w~')
+            elseif daletQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('tequila') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('jager', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('whisky', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('metreshooter') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('jager', 2)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('whisky', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                    xPlayer.addInventoryItem('metreshooter', 1)
+                end
+            end
+
+        end)
+    end
+
+    if _itemValue == 'jagercerbere' then
+        SetTimeout(10000, function()        
+
+            local xPlayer           = ESX.GetPlayerFromId(_source)
+
+            local alephQuantity     = xPlayer.getInventoryItem('jagerbomb').count
+            local bethQuantity      = xPlayer.getInventoryItem('vodka').count
+            local gimelQuantity     = xPlayer.getInventoryItem('tequila').count
+
+            if alephQuantity < 1 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('jagerbomb') .. '~w~')
+            elseif bethQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('vodka') .. '~w~')
+            elseif gimelQuantity < 2 then
+                TriggerClientEvent('esx:showNotification', _source, _U('not_enough') .. _U('tequila') .. '~w~')
+            else
+                local chanceToMiss = math.random(100)
+                if chanceToMiss <= Config.MissCraft then
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft_miss'))
+                    xPlayer.removeInventoryItem('jagerbomb', 1)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('craft') .. _U('jagercerbere') .. ' ~w~!')
+                    xPlayer.removeInventoryItem('jagerbomb', 1)
+                    xPlayer.removeInventoryItem('vodka', 2)
+                    xPlayer.removeInventoryItem('tequila', 2)
+                    xPlayer.addInventoryItem('jagercerbere', 1)
+                end
+            end
+
+        end)
+    end
+
+end)
+
+
+ESX.RegisterServerCallback('esx_bahamajob:getVaultWeapons', function(source, cb)
+
+  TriggerEvent('esx_datastore:getSharedDataStore', 'society_bahama', function(store)
+
+    local weapons = store.get('weapons')
+
+    if weapons == nil then
+      weapons = {}
+    end
+
+    cb(weapons)
+
+  end)
+
+end)
+
+ESX.RegisterServerCallback('esx_bahamajob:addVaultWeapon', function(source, cb, weaponName)
+
+  local xPlayer = ESX.GetPlayerFromId(source)
+
+  xPlayer.removeWeapon(weaponName)
+
+  TriggerEvent('esx_datastore:getSharedDataStore', 'society_bahama', function(store)
+
+    local weapons = store.get('weapons')
+
+    if weapons == nil then
+      weapons = {}
+    end
+
+    local foundWeapon = false
+
+    for i=1, #weapons, 1 do
+      if weapons[i].name == weaponName then
+        weapons[i].count = weapons[i].count + 1
+        foundWeapon = true
+      end
+    end
+
+    if not foundWeapon then
+      table.insert(weapons, {
+        name  = weaponName,
+        count = 1
+      })
+    end
+
+     store.set('weapons', weapons)
+
+     cb()
+
+  end)
+
+end)
+
+ESX.RegisterServerCallback('esx_bahamajob:removeVaultWeapon', function(source, cb, weaponName)
+
+  local xPlayer = ESX.GetPlayerFromId(source)
+
+  xPlayer.addWeapon(weaponName, 1000)
+
+  TriggerEvent('esx_datastore:getSharedDataStore', 'society_bahama', function(store)
+
+    local weapons = store.get('weapons')
+
+    if weapons == nil then
+      weapons = {}
+    end
+
+    local foundWeapon = false
+
+    for i=1, #weapons, 1 do
+      if weapons[i].name == weaponName then
+        weapons[i].count = (weapons[i].count > 0 and weapons[i].count - 1 or 0)
+        foundWeapon = true
+      end
+    end
+
+    if not foundWeapon then
+      table.insert(weapons, {
+        name  = weaponName,
+        count = 0
+      })
+    end
+
+     store.set('weapons', weapons)
+
+     cb()
+
+  end)
+
+end)
 
 ESX.RegisterServerCallback('esx_bahamajob:getPlayerInventory', function(source, cb)
 
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local items   = xPlayer.inventory
+  local xPlayer    = ESX.GetPlayerFromId(source)
+  local items      = xPlayer.inventory
 
-	cb({
-		items = items
-	})
-
-end)
-
-------------------------------------------------------------------------------------------------------------
------------------------------------------------- Utiliser --------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-
-
-TriggerEvent('esx:getSharedObject', function(obj)
-	ESX = obj
-end)
-
-ESX.RegisterUsableItem('myrtealcool', function(source)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeInventoryItem('myrtealcool', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'drunk', 350000)
-	TriggerClientEvent('esx_status:add', source, 'thirst', 100000)
-	TriggerClientEvent('esx_bahamajob:onDrink', source)
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez utilisé 1x ~y~alcool de Myrte~s~')
-
-end)
-
-ESX.RegisterUsableItem('whiskycoc', function(source)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeInventoryItem('whiskycoc', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'drunk', 550000)
-	TriggerClientEvent('esx_status:add', source, 'thirst', 100000)
-	TriggerClientEvent('esx_bahamajob:onDrink', source)
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez utilisé 1x ~y~Whisky CocaCola~s~')
-
-end)
-
-ESX.RegisterUsableItem('vodkrb', function(source)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeInventoryItem('vodkrb', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'drunk', 250000)
-	TriggerClientEvent('esx_status:add', source, 'thirst', 100000)
-	TriggerClientEvent('esx_bahamajob:onDrink', source)
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez utilisé 1x ~y~Vodka RedBull~s~')
-
-end)
-
-ESX.RegisterUsableItem('alcool', function(source)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeInventoryItem('alcool', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'drunk', 1000000)
-	TriggerClientEvent('esx_status:add', source, 'thirst', -500000)
-	TriggerClientEvent('esx_bahamajob:onDrink', source)
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez utilisé 1x ~y~Vodka RedBull~s~')
-
-end)
-
-ESX.RegisterUsableItem('redbull', function(source)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	xPlayer.removeInventoryItem('redbull', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'thirst', 150000)
-	TriggerClientEvent('esx_bahamajob:speed', source)
-	TriggerClientEvent('esx:showNotification', source, 'Vous avez utilisé 1x ~y~RedBull~s~')
-
-end)
-
-RegisterServerEvent('esx_bahamajob:annonce')
-AddEventHandler('esx_bahamajob:annonce', function(result)
-	local _source  = source
-	local xPlayer  = ESX.GetPlayerFromId(_source)
-	local xPlayers = ESX.GetPlayers()
-	local text     = result
-	print(text)
-	for i=1, #xPlayers, 1 do
- 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
- 		TriggerClientEvent('esx_bahamajob:annonce', xPlayers[i],text)
-	end
-
-	Wait(8000)
-
-	local xPlayers = ESX.GetPlayers()
-	for i=1, #xPlayers, 1 do
- 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
- 		TriggerClientEvent('esx_bahamajob:annoncestop', xPlayers[i])
-	end
+  cb({
+    items      = items
+  })
 
 end)
